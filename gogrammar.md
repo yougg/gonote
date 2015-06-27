@@ -10,55 +10,55 @@
 
 ===
 
-- [包 Package](#package)  
-    - [包的声明 Declare](#pkgdeclare)  
-    - [包的导入 Import](#pkgimport)  
-    - [包内元素的可见性 Accessability](#pkgaccess)  
+- [包 Package](#包-package)  
+    - [包的声明 Declare](#包的声明-declare)  
+    - [包的导入 Import](#包的导入-import)  
+    - [包内元素的可见性 Accessability](#包内元素的可见性-accessability)  
 
-- [数据类型 Data Type](#datatype)  
+- [数据类型 Data Type](#数据类型-data-type)  
 
-    - [基础数据类型 Basic data type](#basicdatatype)  
-    - [变量 Variable](#variable)  
-    - [常量 Constant](#constant)  
-    - [数组 Array](#array)  
-    - [切片 Slice](#slice)  
-    - [字典/映射 Map](#map)  
-    - [结构体 Struct](#struct)  
-    - [指针 Pointer](#pointer)  
-    - [通道 Channel](#channel)  
-    - [接口 Interface](#interface)  
-    - [自定义类型](#customtype)  
+    - [基础数据类型 Basic data type](#基础数据类型-basic-data-type)  
+    - [变量 Variable](#变量-variable)  
+    - [常量 Constant](#常量-constant)  
+    - [数组 Array](#数组-array)  
+    - [切片 Slice](#切片-slice)  
+    - [字典/映射 Map](#字典映射-map)  
+    - [结构体 Struct](#结构体-struct)  
+    - [指针 Pointer](#指针-pointer)  
+    - [通道 Channel](#通道-channel)  
+    - [接口 Interface](#接口-interface)  
+    - [自定义类型](#自定义类型)  
 
-- [语句 Statement](#statement)  
+- [语句 Statement](#语句-statement)  
 
-    - [分号/括号 ; {](#semicolon)  
-    - [条件语句 if](#if)  
-    - [分支选择 switch](#switch)  
-    - [循环语句 for](#for)  
-    - [通道选择 select](#select)  
-    - [延迟执行 defer](#defer)  
-    - [跳转语句 goto](#goto)  
+    - [分号/括号 ; {](#分号括号--)  
+    - [条件语句 if](#条件语句-if)  
+    - [分支选择 switch](#分支选择-switch)  
+    - [循环语句 for](#循环语句-for)  
+    - [通道选择 select](#通道选择-select)  
+    - [延迟执行 defer](#延迟执行-defer)  
+    - [跳转语句 goto](#跳转语句-goto)  
 
-- [函数 Function](#function)  
+- [函数 Function](#函数-function)  
 
-    - [函数声明 Declare](#funcdeclare)  
-    - [函数闭包 Closure](#closure)  
-    - [内建函数 Builtin](#builtin)  
-    - [初始化函数 init](#init)  
-    - [方法 Method](#method)  
+    - [函数声明 Declare](#函数声明-declare)  
+    - [函数闭包 Closure](#函数闭包-closure)  
+    - [内建函数 Builtin](#内建函数-builtin)  
+    - [初始化函数 init](#初始化函数-init)  
+    - [方法 Method](#方法-method)  
 
-- [并发 Concurrency](#concurrency)  
+- [并发 Concurrency](#并发-concurrency)  
 
-- [测试 Testing](#testing)  
+- [测试 Testing](#测试-testing)  
 
-    - [单元测试 Unit](#unit)   
-    - [基准测试 Benchmark](#benchmark)
+    - [单元测试 Unit](#单元测试-unit)   
+    - [基准测试 Benchmark](#基准测试-benchmark)
 
 ===
 
-## <span id="package">**包 Package**</span>
+## <span id="包-package">**包 Package**</span>
 
-### <span id="pkgdeclare">**包的声明 Declare**</span>
+### <span id="包的声明-declare">**包的声明 Declare**</span>
 
 - 使用`package`关键字声明当前源文件所在的包  
   包声明语句是所有源文件的第一行非注释语句  
@@ -83,7 +83,7 @@
     pakcage a.b.c   // 错误
     ```
 
-### <span id="pkgimport">**包的导入 Import**</span>
+### <span id="包的导入-import">**包的导入 Import**</span>
 
 - 导入路径是对应包在`$GOROOT/pkg/$GOOS_$GOARCH/`、`$GOPATH/pkg/$GOOS_$GOARCH/`或`当前路径`中的相对路径
 
@@ -178,7 +178,7 @@
     import _ "github.com/go-sql-driver/mysql"
     ```
 
-### <span id="pkgaccess">**包内元素的可见性 Accessability**</span>
+### <span id="包内元素的可见性-accessability">**包内元素的可见性 Accessability**</span>
 
 - 名称首字符为[Unicode包含的大写字母](http://www.fileformat.info/info/unicode/category/Lu/list.htm)的元素是被导出的，对外部包是可见的  
   首字为非大写字母的元素只对本包可见(同包跨源文件可以访问，子包不能访问)
@@ -228,9 +228,9 @@
     import "github.com/rsc/pdf"
     ```
 
-## <span id="datatype">**数据类型 Data Type**</span>
+## <span id="数据类型-data-type">**数据类型 Data Type**</span>
 
-### <span id="basicdatatype">**基础数据类型 Basic data type**</span>
+### <span id="基础数据类型-basic-data-type">**基础数据类型 Basic data type**</span>
 
 - 基本类型包含：数值类型，布尔类型，字符串
 
@@ -251,7 +251,7 @@
       `int`与`int32`或`int64`是不同的类型，只是根据架构对应32/64位值  
       `uint`与`uint32`或`uint64`是不同的类型，只是根据架构对应32/64位值
 
-### <span id="variable">**变量 Variable**</span>
+### <span id="变量-variable">**变量 Variable**</span>
 
 - 变量声明, 使用`var`关键字  
   Go中只能使用`var` **声明**变量，无需显式初始化值
@@ -312,7 +312,7 @@
     c := 1 + 2i                // c complex128
     ```
 
-### <span id="constant">**常量 Constant**</span>
+### <span id="常量-constant">**常量 Constant**</span>
 
 - 常量可以是字符、字符串、布尔或数值类型的值，数值常量是高精度的值
 
@@ -438,7 +438,7 @@
     )
     ```
 
-### <span id="array">**数组 Array**</span>
+### <span id="数组-array">**数组 Array**</span>
 
 - 数组声明带有长度信息且长度固定，数组是值类型默认零值不是`nil`，传递参数时会进行复制。  
   声明定义数组时中括号`[ ]`在类型名称之前，赋值引用元素时中括号`[ ]`在数组变量名之后。
@@ -473,7 +473,7 @@
     var b = [...]string{2:"c", 3:"d"}
     ```
 
-### <span id="slice">**切片 Slice**</span>
+### <span id="切片-slice">**切片 Slice**</span>
 - slice 切片是对一个数组上的连续一段的引用，并且同时包含了长度和容量信息  
   因为是引用类型，所以未初始化时的默认零值是`nil`，长度与容量都是0
 
@@ -546,7 +546,7 @@
     }
     ```
 
-### <span id="map">**字典/映射 Map**</span>
+### <span id="字典映射-map">**字典/映射 Map**</span>
 
 - map是引用类型，使用内置函数 `make`进行初始化，未初始化的map零值为 `nil`长度为0，并且不能赋值元素
 
@@ -597,7 +597,7 @@
     delete(n, "a")                        // 使用内置函数delete删除key为”a“对应的元素.
     ```
 
-### <span id="struct">**结构体 Struct**</span>
+### <span id="结构体-struct">**结构体 Struct**</span>
 
 - 结构体类型`struct`是一个字段的集合
 
@@ -688,7 +688,7 @@
     }
     ```
 
-### <span id="pointer">**指针 Pointer**</span>
+### <span id="指针-pointer">**指针 Pointer**</span>
 
 - 通过取地址操作符`&`获取指向值/引用对象的指针。
 
@@ -787,7 +787,7 @@
   [Go语言中的指针运算](http://1234n.com/?post/rseosp)  
   [利用unsafe操作未导出变量](http://my.oschina.net/goal/blog/193698)
 
-### <span id="channel">**通道 Channel**</span>
+### <span id="通道-channel">**通道 Channel**</span>
 
 - channel用于两个goroutine之间传递指定类型的值来同步运行和通讯。  
   操作符`<-`用于指定channel的方向，发送或接收。  
@@ -893,7 +893,7 @@
         }
     ```
 
-### <span id="interface">**接口 Interface**</span>
+### <span id="接口-interface">**接口 Interface**</span>
 
 - 接口类型是由一组方法定义的集合。  
   接口类型的值可以存放实现这些方法的任何值。
@@ -971,7 +971,7 @@
     }
     ```
 
-### <span id="customtype">**自定义类型**</span>
+### <span id="自定义类型">**自定义类型**</span>
 
 - Go中支持自定义的类型可基于： 基本类型、数组类型、切片类型、字典类型、函数类型、结构体类型、通道类型、接口类型以及自定义类型的类型
 
@@ -1039,9 +1039,9 @@
     )
     ```
 
-## <span id="statement">**语句 Statement**</span>
+## <span id="语句-statement">**语句 Statement**</span>
 
-### <span id="semicolon">**分号/括号 ; {**</span>
+### <span id="分号括号--">**分号/括号 ; {**</span>
 
 - Go是采用语法解析器自动在每行末尾增加分号，所以在写代码的时候可以省略分号。
 
@@ -1052,7 +1052,7 @@
 
 - 控制语句(if，for，switch，select)、函数、方法 的左大括号不能单独放在一行， 语法解析器会在大括号之前自动插入一个分号，导致编译错误。 
 
-### <span id="if">**条件语句 if**</span>
+### <span id="条件语句-if">**条件语句 if**</span>
 
 - `if`语句 小括号 ( )是可选的，而大括号 { } 是必须的。
 
@@ -1143,7 +1143,7 @@
     }
     ```
 
-### <span id="switch">**分支选择 switch**</span>
+### <span id="分支选择-switch">**分支选择 switch**</span>
 
 - `switch`存在分支选择对象时，`case`分支支持单个常量、常量列表
 
@@ -1302,7 +1302,7 @@
     // 输出：case 2 case 3 case 4
     ```
 
-### <span id="for">**循环语句 for**</span>
+### <span id="循环语句-for">**循环语句 for**</span>
 
 - Go只有一种循环结构：`for` 循环。  
   可以让前置(初始化)、中间(条件)、后置(迭代)语句为空，或者全为空。
@@ -1445,7 +1445,7 @@
     }
     ```
 
-### <span id="select">**通道选择 select**</span>
+### <span id="通道选择-select">**通道选择 select**</span>
 
 - ` select`用于当前goroutine从一组可能的通讯中选择一个进一步处理。  
   如果任意一个通讯都可以进一步处理，则从中随机选择一个，执行对应的语句。否则在没有默认分支(default case)时，select语句则会阻塞，直到其中一个通讯完成。  
@@ -1495,7 +1495,7 @@
     }
     ```
 
-### <span id="defer">**延迟执行 defer**</span>
+### <span id="延迟执行-defer">**延迟执行 defer**</span>
 
 - `defer`语句调用函数，将调用的函数加入defer栈，栈中函数在defer所在的主函数返回时执行，执行顺序是先进后出/后进先出。
 
@@ -1589,7 +1589,7 @@
     }
     ```
 
-### <span id="goto">**跳转语句 goto**</span>
+### <span id="跳转语句-goto">**跳转语句 goto**</span>
 
 - `goto`用于在一个函数内部运行跳转到指定标签的代码处，不能跳转到其他函数中定义的标签。
 
@@ -1632,9 +1632,9 @@
 
 - **注意**：任何时候都不建议使用`goto`  
 
-## <span id="function">**函数 Function**</span>
+## <span id="函数-function">**函数 Function**</span>
 
-### <span id="funcdeclare">**函数声明 Declare**</span>
+### <span id="函数声明-declare">**函数声明 Declare**</span>
 
 - 使用关键字`func`声明函数，函数可以没有参数或接受多个参数
 
@@ -1692,7 +1692,7 @@
     func f2(a,b int, c,d byte) (x,y int, z,s bool) {/*...*/}
     ```
 
-### <span id="closure">**函数闭包 Closure**</span>
+### <span id="函数闭包-closure">**函数闭包 Closure**</span>
 
 - 匿名函数、闭包、函数值  
   Go中函数作为第一类对象，可以作为值对象赋值给变量  
@@ -1728,7 +1728,7 @@
     }
     ```
 
-### <span id="builtin">**内建函数 Builtin**</span>
+### <span id="内建函数-builtin">**内建函数 Builtin**</span>
 
 - `func append`
 
@@ -1934,7 +1934,7 @@
 
     > 内建函数recover允许程序管理恐慌过程中的Go程。在defer的函数中，执行recover调用会取回传至panic调用的错误值，恢复正常执行，停止恐慌过程。若recover在defer的函数之外被调用，它将不会停止恐慌过程序列。在此情况下，或当该Go程不在恐慌过程中时，或提供给panic的实参为nil时，recover就会返回nil。
 
-### <span id="init">**初始化函数 init**</span>
+### <span id="初始化函数-init">**初始化函数 init**</span>
 
 - `init`函数是用于程序执行前做包的初始化工作的函数  
   `init`函数的声明没有参数和返回值
@@ -1982,7 +1982,7 @@
     3. 不同的package，如果不相互依赖的，按照main包中 **先import的后调用**的顺序调用其包中的init函数
     4. 如果package存在依赖，则先调用最早被依赖的package中的init函数
 
-### <span id="method">**方法 Method**</span>
+### <span id="方法-method">**方法 Method**</span>
 
 - 通过指定函数的接收者receiver,将函数绑定到一个类型或类型的指针上,使这个函数成为该类型的方法。  
   只能对命名类型和命名类型的指针编写方法。   
@@ -2092,7 +2092,7 @@
 
 - Go中有匿名函数，但是没有匿名方法
 
-## <span id="concurrency">**并发 Concurrency**</span>
+## <span id="并发-concurrency">**并发 Concurrency**</span>
 
 - 协程`goroutine`是由Go运行时环境管理的轻量级线程。  
   使用关键字`go`调用一个函数/方法，启动一个新的协程goroutine
@@ -2214,11 +2214,11 @@
     }
     ```
 
-## <span id="testing">**测试 Testing**</span>
+## <span id="测试-testing">**测试 Testing**</span>
 
 - Go中自带轻量级的测试框架testing和自带的go test命令来实现单元测试和基准测试
 
-### <span id="unit">**单元测试 Unit**</span>
+### <span id="单元测试-unit">**单元测试 Unit**</span>
 
 - 有如下待测试testgo包，一段简单的求和代码
 
@@ -2275,7 +2275,7 @@
   PASS  
   ok      /home/cxy/go/src/testgo        0.004s
 
-### <span id="benchmark">**基准测试 Benchmark**</span>
+### <span id="基准测试-benchmark">**基准测试 Benchmark**</span>
 
 - 基准测试 Benchmark用来检测函数/方法的性能  
   基准测试用例函数必须以`Benchmark`开头  
