@@ -688,6 +688,74 @@
     }
     ```
 
+- 匿名结构体  
+  匿名结构体声明时省略了`type`关键字，并且没有名称
+
+    ```go
+    package main
+    
+    import "fmt"
+    
+    type Integer int
+    
+    // 声明变量a为空的匿名结构体类型
+    var a struct{}
+    
+    // 声明变量b为包含一个字段的匿名结构体类型
+    var b struct{ x int }
+    
+    // 声明变量c为包含两个字段的匿名结构体类型
+    var c struct {
+        u int
+        v bool
+    }
+    
+    func main() {
+        printa(a)
+        b.x = 1
+        fmt.Printf("bx: %#v\n", printb(b))    // bx: struct { y uint8 }{y:0x19}
+        printc(c)
+    
+        // 声明d为包含3个字段的匿名结构体并初始化部分字段
+        d := struct {
+            x int
+            y complex64
+            z string
+        }{
+            z: "asdf",
+            x: 111,
+        }
+        d.y = 22 + 333i
+        fmt.Printf("d: %#v\n", d)    // d: struct { x int; y complex64; z string }{x:111, y:(22+333i), z:"asdf"}
+    
+        // 声明变量e为包含两个字段的匿名结构体类型
+        // 包含1个匿名结构体类型的命名字段和1个命名类型的匿名字段
+        e := struct {
+            a struct{ x int }
+            // 结构体组合嵌入匿名字段只支持命名类型
+            Integer
+        }{}
+        e.Integer = 444
+        fmt.Printf("e: %#v\n", e)    // e: struct { a struct { x int }; main.Integer }{a:struct { x int }{x:0}, Integer:444}
+    }
+    
+    // 函数参数为匿名结构体类型时，传入参数类型声明必须保持一致
+    func printa(s struct{}) {
+        fmt.Printf("a: %#v\n", s)    // a: struct {}{}
+    }
+    
+    // 函数入参和返回值都支持匿名结构体类型
+    func printb(s struct{ x int }) (x struct{ y byte }) {
+        fmt.Printf("b: %#v\n", s)    // b: struct { x int }{x:1}
+        x.y = 25
+        return
+    }
+    
+    func printc(s struct {u int; v bool }) {
+        fmt.Printf("c: %#v\n", s)    // c: struct { u int; v bool }{u:0, v:false}
+    }
+    ```
+
 ### <span id="指针-pointer">**指针 Pointer**</span>
 
 - 通过取地址操作符`&`获取指向值/引用对象的指针。
