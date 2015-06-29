@@ -501,15 +501,36 @@
     fmt.Printf("%T\t%#v\t%d\t%d\n", a, a, len(*a), cap(*a))  // *[]int    &[]int(nil)    0    0
     ```
 
-- 基于slice或数组重新切片，创建一个新的 slice 值指向相同的数组
+- 基于slice或数组重新切片，创建一个新的 slice 值指向相同的数组  
+  重新切片支持两种格式：  
+  
+  2个参数 `slice[beginIndex:endIndex]`  
+  需要满足条件：0 <= beginIndex <= endIndex <= cap(slice)  
+  截取从开始索引到结束索引-1 之间的片段  
+  新slice的长度：`length=(endIndex - beginIndex)`  
+  新slice的容量：`capacity=(cap(slice) - beginIndex)`  
+  beginIndex的值可省略，默认为0  
+  endIndex 的值可省略，默认为len(slice)
 
     ```go
     s := []int{0, 1, 2, 3, 4}
-    a := s[1:3]            // [1 2]    (截取从开始索引到结束索引-1 之间的片段)
-    b := s[:4]             // [0 1 2 3]
-    c := s[1:]             // [1 2 3 4]
-    d := s[1:1]            // []
-    e := s[1:2:3]          // 新切片包含原slice第1个元素，容量为3
+    a := s[1:3]            // a: [1 2],  len: 2,  cap:  4
+    b := s[:4]             // b: [0 1 2 3],  len: 4,  cap:  5
+    c := s[1:]             // c: [1 2 3 4],  len: 4,  cap:  4
+    d := s[1:1]            // d: [],  len: 0,  cap:  4
+    e := s[:]              // e: [0 1 2 3 4],  len: 5,  cap:  5
+    ```
+
+  3个参数 `slice[beginIndex:endIndex:capIndex]`  
+  需要满足条件：0 <= beginIndex <= endIndex <= capIndex <= cap(slice)  
+  新slice的长度：`length=(endIndex - beginIndex)`  
+  新slice的容量：`capacity=(capIndex - beginIndex)`  
+  beginIndex的值可省略，默认为0  
+
+    ```go
+    s := make([]int, 5, 10)
+    a := s[9:10:10]        // a: [0],  len: 1,  cap:  1
+    b := s[:3:5]           // b: [0 0 0],  len: 3,  cap:  5
     ```
 
 - 向slice中增加/修改元素
