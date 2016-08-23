@@ -63,7 +63,7 @@
 - 使用`package`关键字声明当前源文件所在的包  
   包声明语句是所有源文件的第一行非注释语句  
   包名称中不能包含空白字符  
-  包名必须与源文件所在的目录名称保持一致  
+  包名推荐与源文件所在的目录名称保持一致  
   每个目录中只能定义一个package
 
     ```go
@@ -85,7 +85,7 @@
 
 ### <span id="包的导入-import">**包的导入 Import**</span>
 
-- 导入路径是对应包在`$GOROOT/pkg/$GOOS_$GOARCH/`、`$GOPATH/pkg/$GOOS_$GOARCH/`或`当前路径`中的相对路径
+- 导入包路径是对应包在`$GOROOT/pkg/$GOOS_$GOARCH/`、`$GOPATH/pkg/$GOOS_$GOARCH/`或`当前路径`中的相对路径
 
     ```go
     // 导入$GOROOT/$GOOS_$GOARCH/中的相对路径包(官方标准库)
@@ -96,7 +96,7 @@
     import "github.com/user/project/pkg"
     import "code.google.com/p/project/pkg"
     ```
-  
+
   导入当前包的相对路径包  
   例如有Go目录如下：  
   $GOPATH/src  
@@ -113,8 +113,8 @@
     import "../y0/z0"   // y1包中导入子包 z0包
     import "x0/y1/z1"   // y2包中导入 z1包
     ```
-  
-  错误的导入路径
+
+  错误的导入包路径
 
     ```go
     import a/b/c        // 错误
@@ -122,7 +122,7 @@
     import a.b.c        // 错误
     ```
 
-- 用圆括号组合导入包
+- 用圆括号组合导入包路径
 
     ```go
     import ("fmt"; "math")
@@ -146,8 +146,9 @@
         m "math"       // 将导入的包math定义别名为 m
     )
     ```
-  
-  引用包名与导入路径的最后一个包目录名称一致
+
+- 引用包名是导入包路径的最后一个目录中定义的唯一包的名称  
+  定义的包名与目录同名时，直接引用即可
 
     ```go
     // 引用普通名称的导入包
@@ -157,7 +158,22 @@
     格式化.Println(m.Pi)
     ```
 
-- 静态导入，在导入的包名之前增加一个小数点`.`
+  定义的包名与所在目录名称不同时，导入包路径仍为目录所在路径，引用包名为定义的包名称
+
+    ```go
+    // 源文件路径: $GOPATH/src/proj/my-util/util.go
+    // 定义包名: util
+    package util
+    ```
+    ```go
+    // 导入util包路径
+    import "proj/my-util"
+
+    // 引用util包
+    util.doSomething()
+    ```
+
+- 静态导入，在导入的包路径之前增加一个小数点`.`
 
     ```go
     // 类似C中的include 或Java中的import static
@@ -167,7 +183,7 @@
     Println("no need package name")
     ```
 
-- 导入包但不直接使用该包，在导入的包名之前增加一个下划线`_`
+- 导入包但不直接使用该包，在导入的包路径之前增加一个下划线`_`
 
     ```go
     // 如果当前go源文件中未引用过log包，将会导致编译错误
@@ -213,13 +229,13 @@
   x0，y0，z1包中可以访问internal，z0包中的可见元素  
   x1，y1包中不能导入internal，z0包
 
-- 规范导入路径Canonical import paths`Go 1.4`  
+- 规范导入包路径Canonical import paths`Go 1.4`  
   包声明语句后面添加标记注释，用于标识这个包的规范导入路径。
 
     ```go
     package pdf // import "rsc.io/pdf"
     ```
-  
+
   如果使用此包的代码的导入的路径不是规范路径，go命令会拒绝编译。  
   例如有 [rsc.io/pdf]() 的一个fork路径 [github.com/rsc/pdf]()  
   如下程序代码导入路径时使用了非规范的路径则会被go拒绝编译
