@@ -1144,6 +1144,31 @@
     )
     ```
 
+- 类型别名`Go 1.9`
+
+    ```go
+    type (
+        A struct{}
+        B struct{}	// 定义两个结构相同的类型A，B
+        C = A	// 定义类型A的别名
+    )
+
+    func main() {
+        var (
+            a A
+            b B
+            c C
+        )
+        // 因为类型名不同，所以a和b不是相同类型，此处编译错误
+        fmt.Println(a == b) // invalid operation: a == b (mismatched types A and B)
+
+        fmt.Println(a == c) // true
+        a = C{}
+        c = A{}
+        fmt.Println(c == a) // true
+    }
+    ```
+
 ## <span id="语句-statement">**语句 Statement**</span>
 
 ### <span id="分号括号--">**分号/括号 ; {**</span>
