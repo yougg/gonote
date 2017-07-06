@@ -260,7 +260,7 @@
     |`float32`|IEEE-754 32-bit|0.0|`float64`|IEEE-754 64-bit|0.0|
     |`complex64`|**float32+float32**i|0 + 0i|`complex128`|**float64+float64**i|0 + 0i|
     |`bool`|**true,false**|false|`string`|"" ~ "∞"|"",\`\`|
-    |`uintptr`|**int32,int64**|0|`error`|-|nil|
+    |`uintptr`|**uint32,uint64**|0|`error`|-|nil|
 
     > `byte` 是 `uint8` 的别名  
       `rune` 是 `int32` 的别名，代表一个Unicode码点  
