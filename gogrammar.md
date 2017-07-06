@@ -68,18 +68,18 @@
 
     ```go
     package cxy     // 声明一个名为“cxy”的包
-    
+
     package 我的包   // 声明一个名为“我的包”的包
-    
+
     package main    // main包, 程序启动执行的入口包
     ```
 
   错误的包声明
     ```go
     package "mypkg" // 错误
-    
+
     package a/b/c   // 错误
-    
+
     pakcage a.b.c   // 错误
     ```
 
@@ -91,7 +91,7 @@
     // 导入$GOROOT/$GOOS_$GOARCH/中的相对路径包(官方标准库)
     import "fmt"
     import "math/rand"
-    
+
     // 导入$GOPATH/$GOOS_$GOARCH/中的相对路径包
     import "github.com/user/project/pkg"
     import "code.google.com/p/project/pkg"
@@ -126,7 +126,7 @@
 
     ```go
     import ("fmt"; "math")
-    
+
     import (
         "fmt"
         "math"
@@ -138,11 +138,11 @@
     ```go
     import (
         "a/b/c"
-    
+
         c1 "x/y/c"     // 将导入的包c定义别名为 c1
-    
+
         格式化 "fmt"    // 将导入的包fmt定义别名为 格式化
-    
+
         m "math"       // 将导入的包math定义别名为 m
     )
     ```
@@ -153,7 +153,7 @@
     ```go
     // 引用普通名称的导入包
     c.hello()
-    
+
     // 引用定义别名的包
     格式化.Println(m.Pi)
     ```
@@ -178,7 +178,7 @@
     ```go
     // 类似C中的include 或Java中的import static
     import . "fmt"
-    
+
     // 然后像使用本包元素一样使用fmt包中可见的元素，不需要通过包名引用
     Println("no need package name")
     ```
@@ -189,7 +189,7 @@
     // 如果当前go源文件中未引用过log包，将会导致编译错误
     import "log"    // 错误
     import . "log"  // 静态导入未使用同样报错
-    
+
     // 在包名前面增加下划线表示导入包但是不直接使用它，被导入的包中的init函数会在导入的时候执行
     import _ "github.com/go-sql-driver/mysql"
     ```
@@ -274,9 +274,9 @@
 
     ```go
     var i int       // i = 0
-    
+
     var s string    // s = ""    (Go中的string是值类型，默认零值是空串 "" 或 ``，不存在nil(null)值)
-    
+
     var e error     // e = nil, error是Go的内建接口类型。
     ```
   
@@ -473,11 +473,11 @@
 
     ```go
     var a = [...]int{0, 1, 2}
-    
+
     // 多维数组只能自动计算最外围数组长度
     x := [...][3]int{{0, 1, 2}, {3, 4, 5}}
     y := [...][2][2]int{{{0,1},{2,3}},{{4,5},{6,7}}}
-    
+
     // 通过下标访问数组元素
     println(y[1][1][0])                                    // 6
     ```
@@ -496,11 +496,11 @@
     ```go
     var a []int
     fmt.Printf("%T\t%#v\t%d\t%d\n", a, a, len(a), cap(a))    // []int    []int(nil)    0    0
-    
+
     // 可用类似数组的方式初始化slice
     var d []int = []int{0, 1, 2}
     fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))    // []int    []int{0, 1, 2}    3    3
-    
+
     var e = []string{2:"c", 3:"d"}
     ```
   
@@ -509,10 +509,10 @@
     ```go
     var b = make([]int, 0)
     fmt.Printf("%T\t%#v\t%d\t%d\n", b, b, len(b), cap(b))    // []int    []int{}    0    0
-    
+
     var c = make([]int, 3, 10)
     fmt.Printf("%T\t%#v\t%d\t%d\n", c, c, len(c), cap(c))    // []int    []int{}    3    10
-    
+
     var a = new([]int)
     fmt.Printf("%T\t%#v\t%d\t%d\n", a, a, len(*a), cap(*a))  // *[]int    &[]int(nil)    0    0
     ```
@@ -558,7 +558,7 @@
     t = []string{"e", "f", "g"}
     s = append(s, t...}             // 添加另一个切片t的所有元素
     s = append(s, t[:2]...}         // 添加另一个切片t的部分元素
-    
+
     s[0] = "A"                      // 修改切片s的第一个元素
     s[len(s)-1] = "G"               // 修改切片s的最后一个元素
     ```
@@ -573,7 +573,7 @@
         //delete the fourth element(index is 3), using append
         s = append(s[:i], s[i+1:]...)
     }
-    
+
     func deleteByCopy() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
@@ -627,10 +627,10 @@
     ```go
     m[0] = 3                              // 修改m中key为0的值为3
     m[4] = 8                              // 添加到m中key为4值为8
-    
+
     a := n["a"]                           // 获取n中key为“a“的值
     b, ok := n["c"]                       // 取值, 并通过ok(bool)判断key对应的元素是否存在.
-    
+
     delete(n, "a")                        // 使用内置函数delete删除key为”a“对应的元素.
     ```
 
@@ -671,52 +671,52 @@
 
     ```go
     package main
-    
+
     type (
         A struct {
             v int
         }
-    
+
         // 定义结构体B，嵌入结构体A作为匿名字段
         B struct {
             A
         }
-    
+
         // 定义结构体C，嵌入结构体A的指针作为匿名字段
         C struct {
             *A
         }
     )
-    
+
     func (a *A) setV(v int) {
         a.v = v
     }
-    
+
     func (a A) getV() int {
         return a.v
     }
-    
+
     func (b B) getV() string {
         return "B"
     }
-    
+
     func (c *C) getV() bool {
         return true
     }
-    
+
     func main() {
         a := A{}
         b := B{}    // 初始化结构体B，其内匿名字段A默认零值是A{}
         c := C{&A{}}    // 初始化结构体C，其内匿名指针字段*A默认零值是nil，需要初始化赋值
-    
+
         println(a.v)
-    
+
         // 结构体A嵌入B，A内字段自动提升到B
         println(b.v)
-    
+
         // 结构体指针*A嵌入C，*A对应结构体内字段自动提升到C
         println(c.v)
-    
+
         a.setV(3)
         b.setV(5)
         c.setV(7)
@@ -730,29 +730,29 @@
 
     ```go
     package main
-    
+
     import "fmt"
-    
+
     type Integer int
-    
+
     // 声明变量a为空的匿名结构体类型
     var a struct{}
-    
+
     // 声明变量b为包含一个字段的匿名结构体类型
     var b struct{ x int }
-    
+
     // 声明变量c为包含两个字段的匿名结构体类型
     var c struct {
         u int
         v bool
     }
-    
+
     func main() {
         printa(a)
         b.x = 1
         fmt.Printf("bx: %#v\n", printb(b))    // bx: struct { y uint8 }{y:0x19}
         printc(c)
-    
+
         // 声明d为包含3个字段的匿名结构体并初始化部分字段
         d := struct {
             x int
@@ -764,7 +764,7 @@
         }
         d.y = 22 + 333i
         fmt.Printf("d: %#v\n", d)    // d: struct { x int; y complex64; z string }{x:111, y:(22+333i), z:"asdf"}
-    
+
         // 声明变量e为包含两个字段的匿名结构体类型
         // 包含1个匿名结构体类型的命名字段和1个命名类型的匿名字段
         e := struct {
@@ -775,19 +775,19 @@
         e.Integer = 444
         fmt.Printf("e: %#v\n", e)    // e: struct { a struct { x int }; main.Integer }{a:struct { x int }{x:0}, Integer:444}
     }
-    
+
     // 函数参数为匿名结构体类型时，传入参数类型声明必须保持一致
     func printa(s struct{}) {
         fmt.Printf("a: %#v\n", s)    // a: struct {}{}
     }
-    
+
     // 函数入参和返回值都支持匿名结构体类型
     func printb(s struct{ x int }) (x struct{ y byte }) {
         fmt.Printf("b: %#v\n", s)    // b: struct { x int }{x:1}
         x.y = 25
         return
     }
-    
+
     func printc(s struct {u int; v bool }) {
         fmt.Printf("c: %#v\n", s)    // c: struct { u int; v bool }{u:0, v:false}
     }
@@ -800,10 +800,10 @@
     ```go
     var i int = 1
     pi := &i    // 指向数值的指针
-    
+
     a := []int{0, 1, 2}
     pa := &a    // 指向引用对象的指针
-    
+
     var s *S = &S{0, "1", "2"}    // 指向值对象的指针
     ```
 
@@ -821,7 +821,7 @@
         i := new(int)
         *i = 3
         println(i, *i)    // 0xc208031f80    3
-    
+
         i = new(int)
         println(i, *i)    // 0xc208031f78    0
     }
@@ -845,7 +845,7 @@
         var ppp ***int
         var pppp ****int
         println(i, p, pp, ppp, pppp)    // 0 0x0 0x0 0x0 0x0
-    
+
         i, p, pp, ppp, pppp = 123, &i, &p, &pp, &ppp
         println(i, p, pp, ppp, pppp)    // 123 0xc208031f68 0xc208031f88 0xc208031f80 0xc208031f78
         println(i, *p, **pp, ***ppp, ****pppp)    // 123 123 123 123 123
@@ -857,7 +857,7 @@
 
     ```go
     package a
-    
+
     type X struct {
         A Y
     }
@@ -875,7 +875,7 @@
         "a"
         "fmt"
     )
-    
+
     func main() {
         var x = a.X{}
         var p = &x
@@ -933,18 +933,18 @@
 
     ```go
     ch := make(chan string, 1)
-    
+
     // 发送方，发送值后关闭channel
     ch <- "hello"
     close(ch)
-    
-    
+
+
     // 接收方，取出发送的值
     fmt.Println(<-ch)    // 输出： “hello”
-    
+
     // 再次从已关闭的channel中取值，返回channel传递类型的零值
     fmt.Println(<-ch)    // 输出： 零值，空字符串“”
-    
+
     // 接收方判断接收到的零值是由发送方发送的还是关闭channel返回的默认值
     s, ok := <-ch
     if ok {
@@ -952,7 +952,7 @@
     } else {
         fmt.Println("Get zero value from closed channel")
     }
-    
+
     // 向已关闭的通道发送值会产生运行时恐慌panic
     ch <- "hi"
     // 再次关闭已经关闭的通道也会产生运行时恐慌panic
@@ -963,9 +963,9 @@
 
     ```go
     package main
-    
+
     import "fmt"
-    
+
     func main() {
         // 无缓冲和有缓冲的channel的range用法相同
         var ch = make(chan int)    // make(chan int, 2) 或 make(chan int , 100)
@@ -975,7 +975,7 @@
             }
             close(ch)
         }()
-    
+
         // channel中无发送值且未关闭时会阻塞
         for x := range ch {
             fmt.Println(x)
@@ -1013,7 +1013,7 @@
 
     ```go
     type MyFloat float64
-    
+
     func (f MyFloat) Abs() float64 {
         if f < 0 {
             return float64(-f)
@@ -1028,31 +1028,31 @@
     type Reader interface {
         Read(b []byte) (n int)
     }
-    
+
     type Writer interface {
         Write(b []byte) (n int)
     }
-    
+
     // 接口ReadWriter组合了Reader和Writer两个接口
     type ReadWriter interface {
         Reader
         Writer
     }
-    
+
     type File struct {
         // ...
     }
-    
+
     func (f *File) Read(b []byte) (n int) {
         println("Read", len(b),"bytes data.")
         return len(b)
     }
-    
+
     func (f *File) Write(b []byte) (n int) {
         println("Write", len(b),"bytes data.")
         return len(b)
     }
-    
+
     func main() {
         // *File 实现了Read方法和Write方法，所以实现了Reader接口和Writer接口以及组合接口ReadWriter
         var f *File = &File{}
@@ -1149,8 +1149,8 @@
     ```go
     type (
         A struct{}
-        B struct{}	// 定义两个结构相同的类型A，B
-        C = A	// 定义类型A的别名
+        B struct{} // 定义两个结构相同的类型A，B
+        C = A      // 定义类型A的别名
     )
 
     func main() {
@@ -1189,18 +1189,18 @@
     ```go
     if (i < 0)        // 编译错误.
         println(i)
-    
+
     if i < 0          // 编译错误.
         println(i)
-    
+
     if (i < 0) {      // 编译通过.
         println(i)
     }
-    
+
     if (i < 0 || i > 10) {
         println(i)
     }
-    
+
     if i < 0 {
         println(i)
     } else if i > 5 && i <= 10 {
@@ -1216,11 +1216,11 @@
     if (i := 0; i < 1) {    // 编译错误.
         println(i)
     }
-    
+
     if i := 0; (i < 1) {    // 编译通过.
         println(i)
     }
-    
+
     if i := 0; i < 0 {      // 使用gofmt格式化代码会自动移除代码中不必要的小括号( )
         println(i)
     } else if i == 0 {
@@ -1244,29 +1244,29 @@
 
     ```go
     package main
-    
+
     func f0() int {return 333}
-    
+
     func main() {
         x := 9
         checkType(x)
         checkType(f0)
     }
-    
+
     func checkType(x interface{}) {
         // 断言传入的x为int类型，并获取值
         if i, ok := x.(int); ok {
             println("int: ", i)    // int:  0
         }
-    
+
         if f, ok := x.(func() int); ok {
             println("func: ", f())    // func:  333
         }
-    
+
         // 如果传入x类型为int，则可以直接获取其值
         a := x.(int)
         println(a)
-    
+
         // 如果传入x类型不是byte，则会产生恐慌panic
         b := x.(byte)
         println(b)
@@ -1334,12 +1334,12 @@
 
     ```go
     package main
-    
+
     import (
         "fmt"
         "code.google.com/p/go.crypto/openpgp/errors"
     )
-    
+
     func main() {
         var (
             a = 0.1
@@ -1361,7 +1361,7 @@
             typeswitch(v)
         }
     }
-    
+
     func typeswitch(x interface{}) {
         // switch x.(type) {    // 不使用类型值时
         switch i := x.(type) {
@@ -1385,9 +1385,9 @@
             fmt.Printf("other type : %T\n", i)
         }
     }
-    
+
     // output: 
-    
+
     // x is nil
     // basic type : float64
     // basic type : complex128
@@ -1462,20 +1462,20 @@
 
     ```go
     a := [5]int{2, 3, 4, 5, 6}
-    
-    
+
+
     for k, v := range a {
         fmt.Println(k, v)    // 输出：0 2, 1 3, 2 4, 3 5, 4 6
     }
-    
+
     for k := range a {
         fmt.Println(k)    // 输出：0 1 2 3 4
     }
-    
+
     for _ = range a {
         fmt.Println("print without care about the key and value")
     }
-    
+
     for range a {
         fmt.Println("new syntax – print without care about the key and value")
     }
@@ -1500,7 +1500,7 @@
     ```go
     package main
     import "fmt"
-    
+
     func main() {
         var arr = [...]int{33, 22, 11, 0}
         // 遍历数组，取一位值时为索引值
@@ -1513,7 +1513,7 @@
             fmt.Printf("%d %d, ", k, v) // 0 33, 1 22, 2 11, 3 0,
         }
         fmt.Println()
-    
+
         // 遍历数组指针，取一位值时为索引值
         for k := range &arr {
             fmt.Printf("%d, ", k)   // 0, 1, 2, 3,
@@ -1524,7 +1524,7 @@
             fmt.Printf("%d %d, ", k, v) // 0 33, 1 22, 2 11, 3 0,
         }
         fmt.Println()
-    
+
         var slc = []byte{44, 55, 66, 77}
         // 遍历切片，取一位值时为索引值
         for k := range slc {
@@ -1536,7 +1536,7 @@
             fmt.Printf("%d %d, ", k, v) // 0 44, 1 55, 2 66, 3 77,
         }
         fmt.Println()
-    
+
         var str = "abc一二3"
         // 遍历字符串，取一位值时为字节索引值
         for k := range str {
@@ -1548,7 +1548,7 @@
             fmt.Printf("%d %d %s, ", k, v, string(v))   // 0 97 a, 1 98 b, 2 99 c, 3 19968 一, 6 20108 二, 9 51 3,
         }
         fmt.Println()
-    
+
         var mp = map[int]string{5:"A", 9:"B"}
         // 遍历map，取一位值时为键key
         for k := range mp {
@@ -1560,7 +1560,7 @@
             fmt.Printf("%d %s, ", k, v) // 5 A, 9 B,
         }
         fmt.Println()
-    
+
         var ch = make(chan int)
         go func() {
             for i := 0; i < 5; i++ {
@@ -1583,7 +1583,7 @@
 
     ```go
     ch1, ch2 := make(chan int), make(chan int)
-    
+
     // 因为没有值发送到select中的任一case的channel中，此select将会阻塞
     select {
     case <-ch1:
@@ -1595,7 +1595,7 @@
 
     ```go
     ch1, ch2 := make(chan int), make(chan int)
-    
+
     // 因为没有值发送到select中的任一case的channel中，此select将会执行default分支
     select {
     case <-ch1:
@@ -1631,14 +1631,14 @@
 
     ```go
     package main
-    
+
     func main() {
         defer print(0)
         defer print(1)
         defer print(2)
         defer print(3)
         defer print(4)
-    
+
         for i := 5; i <= 9; i++ {
             defer print(i)
         }
@@ -1650,11 +1650,11 @@
 
     ```go
     package main
-    
+
     func main() {
         println(f())    // 返回： 15
     }
-    
+
     func f() (i int) {
         defer func() {
             i *= 5
@@ -1703,7 +1703,7 @@
         f()
         fmt.Println("main normal...")
     }
-    
+
     func f() {
         defer func() {
             if r := recover(); r != nil {
@@ -1713,7 +1713,7 @@
         p()
         fmt.Println("normal...")
     }
-    
+
     func p() {
         panic("exception...")
     }
@@ -1727,7 +1727,7 @@
 
     ```go
     package main
-    
+
     func main() {
         i := 0
     loop:
@@ -1770,9 +1770,9 @@
 
     ```go
     func f0() {/*...*/}
-    
+
     func f1(a int) {/*...*/}
-    
+
     func f2(a int, b byte) {/*...*/}
     ```
 
@@ -1781,7 +1781,7 @@
 
     ```go
     func f3(a ...int) {/*...*/}
-    
+
     func f4(a int, b bool, c ...string) {/*...*/}
     ```
 
@@ -1791,11 +1791,11 @@
     func f0() {
         return
     }
-    
+
     func f1() int {
         return 0
     }
-    
+
     func f2() (int, string) {
         return 0, "A"
     }
@@ -1816,9 +1816,9 @@
 
     ```go
     func f0(a,b,c int) {/*...*/}
-    
+
     func f1() (a,b,c int) {/*...*/}
-    
+
     func f2(a,b int, c,d byte) (x,y int, z,s bool) {/*...*/}
     ```
 
@@ -1830,27 +1830,27 @@
 
     ```go
     package main
-    
+
     type Myfunc func(i int) int
-    
+
     func f0(name string){
         println(name)
     }
-    
+
     func main() {
         var a = f0
         a("hello")    // hello
-        
+
         var f1 Myfunc = func(i int) int {
             return i
         }
         fmt.Println(f1(3))    // 3
-    
+
         var f2 func() int = func() int {
             return 0
         }
         fmt.Println(f2())     // 0
-    
+
         // 省略部分关键字
         var f3 func() = func() {/*...*/}
         var f4 = func() {/*...*/}
@@ -1878,8 +1878,8 @@
     ```go
     slice = append([]byte("hello "), "world"...)
     ```
+    　  
 
-<br>
 - `func cap`
 
     ```go
@@ -1890,9 +1890,10 @@
     数组：v中元素的数量，与 len(v) 相同  
     数组指针：*v中元素的数量，与len(v) 相同  
     切片：切片的容量（底层数组的长度）；若 v为nil，cap(v) 即为零  
-    信道：按照元素的单元，相应信道缓存的容量；若v为nil，cap(v)即为零  
+    信道：按照元素的单元，相应信道缓存的容量；若v为nil，cap(v)即为零
 
-<br>
+    　  
+
 - `func close`
 
     ```go
@@ -1904,8 +1905,8 @@
     ```go
     x, ok := <-c    // ok值为false
     ```
+    　  
 
-<br>
 - `func complex`
 
     ```go
@@ -1918,8 +1919,8 @@
     c := complex(1, 2)
     fmt.Println(c)    // (1+2i)
     ```
+    　  
 
-<br>
 - `func copy`
 
     ```go
@@ -1931,20 +1932,20 @@
     ```go
     a, b, c := []byte{1, 2, 3}, make([]byte, 2), 0
     fmt.Println("a:", a, " b:", b, " c: ", c)    // a: [1 2 3]  b: [0 0]  c:  0
-    
+
     c = copy(b, a)
     fmt.Println("a:", a, " b:", b, " c: ", c)    // a: [1 2 3]  b: [1 2]  c:  2
-    
+
     b = make([]byte, 5)
     c = copy(b, a)
     fmt.Println("a:", a, " b:", b, " c: ", c)    // a: [1 2 3]  b: [1 2 3 0 0]  c:  3
-    
+
     s := "ABCD"
     c = copy(b, s)
     fmt.Println("s:", s, " b:", b, " c: ", c)    // s: ABCD  b: [65 66 67 68 0]  c:  4
     ```
+    　  
 
-<br>
 - `func delete`
 
     ```go
@@ -1961,11 +1962,11 @@
     }
     delete(m, 1)
     fmt.Println(m)    // map[2:C 0:A]
-    
+
     delete(m, 3)    // 此行代码执行没有任何操作，也不会报错。
     ```
+    　  
 
-<br>
 - `func imag`
 
     ```go
@@ -1978,8 +1979,8 @@
     c := 2+5i
     fmt.Println(imag(c))    // 5
     ```
+    　  
 
-<br>
 - `func len`
 
     ```go
@@ -1993,7 +1994,8 @@
     字符串：v中字节的数量，计算字符数量使用`utf8.RuneCountInString()`  
     通道：通道缓存中队列（未读取）元素的数量；若v为 nil，len(v)即为零
 
-<br>
+    　  
+
 - `func make`
 
     ```go
@@ -2005,7 +2007,8 @@
     映射：初始分配的创建取决于size，但产生的映射长度为0。size可以省略，这种情况下就会分配一个小的起始大小。  
     通道：通道的缓存根据指定的缓存容量初始化。若 size为零或被省略，该信道即为无缓存的。
 
-<br>
+    　  
+
 - `func new`
 
     ```go
@@ -2014,7 +2017,8 @@
 
     > 内建函数new分配内存。其第一个实参为类型，而非值。其返回值为指向该类型的新分配的零值的指针。
 
-<br>
+    　  
+
 - `func panic`
 
     ```go
@@ -2023,7 +2027,8 @@
 
     > 内建函数panic停止当前Go程的正常执行。当函数F调用panic时，F的正常执行就会立刻停止。F中defer的所有函数先入后出执行后，F返回给其调用者G。G如同F一样行动，层层返回，直到该Go程中所有函数都按相反的顺序停止执行。之后，程序被终止，而错误情况会被报告，包括引发该恐慌的实参值，此终止序列称为恐慌过程。
 
-<br>
+    　  
+
 - `func print`
 
     ```go
@@ -2032,7 +2037,8 @@
 
     > 内建函数print以特有的方法格式化参数并将结果写入标准错误，用于自举和调试。
 
-<br>
+    　  
+
 - `func println`
 
     ```go
@@ -2041,7 +2047,8 @@
 
     > println类似print，但会在参数输出之间添加空格，输出结束后换行。
 
-<br>
+    　  
+
 - `func real`
 
     ```go
@@ -2053,9 +2060,9 @@
     ```go
     c := 2+5i
     fmt.Println(real(c))    // 2
-    ```
+    ```  
+    　  
 
-<br>
 - `func recover`
 
     ```go
@@ -2079,10 +2086,10 @@
 
     ```go
     package main
-    
+
     func main() {
     }
-    
+
     func init() {
         println("init1...")
     }
@@ -2100,7 +2107,7 @@
     func init() {
         println("init...")
     }
-    
+
     func main() {
         init()    // undefined: init
     }
@@ -2122,41 +2129,41 @@
 
     ```go
     package main
-    
+
     type A struct {
         x, y int
     }
-    
+
     // 定义结构体的方法，'_'表示方法内忽略使用结构体、字段及其他方法
     func (_ A) echo_A() {
         println("(_ A)")
     }
-    
+
     // 同上
     func (A) echoA(s string) {
         println("(A)", s)
     }
-    
+
     // 定义结构体指针的方法，'_'表示方法内忽略使用结构体指针、字段及其他方法
     func (_ *A) echo_жA() {
         println("(_ *A)")
     }
-    
+
     // 同上
     func (*A) echoжA(s string) {
         println("(*A)", s)
     }
-    
+
     // 定义结构体的方法，方法内可以引用结构体、字段及其他方法
     func (a A) setX(x int) {
         a.x = x
     }
-    
+
     // 定义结构体指针的方法，方法内可以引用结构体、结构体指针、字段及其他方法
     func (a *A) setY(y int) {
         a.y = y
     }
-    
+
     func main() {
         var a A    // a = A{}
         a.setX(3)
@@ -2166,7 +2173,7 @@
         a.echoA("a")    // (A) a
         a.echo_жA()    // (_ *A)
         a.echoжA("a")    // (*A) a
-    
+
         // 以下是定义在结构体值上的方法原型，通过调用结构体类型上定义的函数，传入结构体的值
         A.echo_A(a)    // (_ A)
         A.echoA(a, "a")    // (A) a
@@ -2175,8 +2182,8 @@
         A.setX(a, 4)
         // A.setY(a, 7)    // A.setY未定义
         println(a.x) // 0
-    
-    
+
+
         b := &a
         b.setX(2)
         b.setY(5)
@@ -2185,7 +2192,7 @@
         b.echoA("b")    // (A) b
         b.echo_жA()    // (_ *A)
         b.echoжA("b")    // (*A) b
-    
+
         // 以下是定义在结构体指针上的方法原型，通过调用结构体类型指针上定义的函数，传入结构体的指针
         (*A).echo_A(b)    // (_ A)
         (*A).echoA(b, "b")    // (A) b
@@ -2194,7 +2201,7 @@
         (*A).setX(b, 1)
         (*A).setY(b, 8)
         println(b.x, b.y)    // 0   8
-    
+
         // 调用结构体空指针上的方法，以下注释掉的代码都是空指针错误
         var c *A    // c = nil
         // c.setX(2)
@@ -2204,7 +2211,7 @@
         // c.echoA()
         c.echo_жA()    // (_ *A)
         c.echoжA("c")    // (*A) c
-    
+
         // (*A).echo_A(c)
         // (*A).echoA(c)
         (*A).echo_жA(c)    // (_ *A)
@@ -2229,15 +2236,15 @@
 
     ```go
     package main
-    
+
     import (
         "time"
     )
-    
+
     func say(i int) {
         println("goroutine:", i)
     }
-    
+
     func main() {
         for i := 1; i <= 5; i++ {
             go say(i)
@@ -2260,15 +2267,15 @@
 
     ```go
     package main
-    
+
     import (
         "sync"
         "time"
     )
-    
+
     var mu sync.Mutex
     var i int
-    
+
     func main() {
         for range [5]byte{} {
             go Add()
@@ -2276,7 +2283,7 @@
         time.Sleep(5*time.Second)
         println(i)
     }
-    
+
     func Add() {
         // 使用互斥锁防止多个协程goroutine同时修改共享变量
         // 只能限制同时访问此方法修改变量，在方法外修改则限制是无效的
@@ -2290,14 +2297,14 @@
 
     ```go
     package main
-    
+
     import (
         "time"
     )
-    
+
     var i int
     var ch = make(chan byte, 1)
-    
+
     func main() {
         for range [5]byte{} {
             go Add()
@@ -2305,7 +2312,7 @@
         time.Sleep(5*time.Second)
         println(i)
     }
-    
+
     func Add() {
         ch <- 0
         i++
@@ -2318,14 +2325,14 @@
     ```go
     // 上一个例子只是将channel用作同步开关，稍做修改即可在不同goroutine间通信
     package main
-    
+
     import (
         "time"
     )
-    
+
     var i int
     var ch = make(chan int, 1)
-    
+
     func main() {
         for range [5]byte{} {
             go Add()
@@ -2335,7 +2342,7 @@
         i = <-ch
         println(i)
     }
-    
+
     func Add() {
         // 从channel中接收的值是来自其他goroutine发送的
         x := <-ch
@@ -2354,14 +2361,14 @@
 
     ```go
     package testgo
-    
+
     import "math"
-    
+
     func Sum(min, max int) (sum int) {
         if min < 0 || max < 0 || max > math.MaxInt32 || min > max {
             return 0
         }
-        
+
         for ; min <= max; min++ {
             sum += min
         }
@@ -2379,9 +2386,9 @@
 
     ```go
     package testgo
-    
+
     import "testing"
-    
+
     func TestSum(t *testing.T) {
         s := Sum(1, 0)
         t.Log("Sum 1 to 0:", s)
@@ -2414,9 +2421,9 @@
 
     ```go
     package testgo
-    
+
     import "testing"
-    
+
     func BenchmarkSum(b *testing.B) {
         b.Logf("Sum 1 to %d: %d\n", b.N, Sum(1, b.N))
     }
