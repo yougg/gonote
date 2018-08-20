@@ -4,11 +4,10 @@
 *Date*：2015-06-26  
 *Version*：1.0  
 *Source*：[Fork me on GitHub](https://github.com/yougg/gonote)  
-*Blog*：[yougg.github.io/static/gonote/gogrammar.html](http://yougg.github.io/static/gonote/gogrammar.html)  
 *Description*：学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。  
 本文使用LiteIDE的Markdown编辑器编写，博客为LiteIDE导出的单页html，可以直接保存离线使用。
 
-===
+---
 
 - [包 Package](#包-package)  
     - [包的声明 Declare](#包的声明-declare)  
@@ -54,7 +53,7 @@
     - [单元测试 Unit](#单元测试-unit)   
     - [基准测试 Benchmark](#基准测试-benchmark)
 
-===
+---
 
 ## <span id="包-package">**包 Package**</span>
 
