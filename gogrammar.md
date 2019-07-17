@@ -212,7 +212,7 @@
     func (i ブーリアン) Ȿtring() string {...}         // Ȿtring is exported
     ```
 
-- internal包（内部包）`Go 1.4`  
+- internal包（内部包） `Go1.4+`  
   internal包及其子包中的导出元素只能被与internal同父包的其他包访问  
   
   例如有Go目录如下：  
@@ -228,7 +228,7 @@
   x0，y0，z1包中可以访问internal，z0包中的可见元素  
   x1，y1包中不能导入internal，z0包
 
-- 规范导入包路径Canonical import paths`Go 1.4`  
+- 规范导入包路径Canonical import paths `Go1.4+`  
   包声明语句后面添加标记注释，用于标识这个包的规范导入路径。
 
     ```go
@@ -536,7 +536,7 @@
     e := s[:]              // e: [0 1 2 3 4],  len: 5,  cap:  5
     ```
 
-  3个参数 `slice[beginIndex:endIndex:capIndex]`  
+  3个参数 `slice[beginIndex:endIndex:capIndex]` `Go1.2+`  
   需要满足条件：0 <= beginIndex <= endIndex <= capIndex <= cap(slice)  
   新slice的长度：`length=(endIndex - beginIndex)`  
   新slice的容量：`capacity=(capIndex - beginIndex)`  
@@ -569,14 +569,14 @@
     func deleteByAppend() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
-        //delete the fourth element(index is 3), using append
+        // delete the fourth element(index is 3), using append
         s = append(s[:i], s[i+1:]...)
     }
 
     func deleteByCopy() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
-        //delete the fourth element(index is 3), using copy
+        // delete the fourth element(index is 3), using copy
         copy(s[i:], s[i+1:])
         s = s[:len(s)-1]
     }
@@ -1143,7 +1143,7 @@
     )
     ```
 
-- 类型别名`Go 1.9`
+- 类型别名 `Go1.9+`
 
     ```go
     type (
@@ -1166,6 +1166,52 @@
         c = A{}
         fmt.Println(c == a) // true
     }
+    ```
+
+- 强制类型转换
+
+  数据类型转换语法规则
+
+    ```go
+    // T 为新的数据类型
+    newDataTypeVariable = T(oldDataTypeVariable)
+    ```
+
+  数值类型转换
+
+    ```go
+    var i int = 123
+    var f = float64(i)
+    var u = uint(f)
+    ```
+
+  接口类型转换  
+  任意类型的数据都可以转换为其类型已实现的接口类型
+
+    ```go
+    type I interface{}
+
+    var x int = 123
+    var y = I(x)
+  
+    var s struct{a string}
+    var t = I(s)
+    ```
+
+  结构体类型转换 `Go1.8+`  
+  如果两个结构体包含的所有字段的名称和类型相同(忽略字段的标签差异)，则可以互相强制转换类型。
+
+    ```go
+    type T1 struct {
+        X int `json:"foo"`
+    }
+
+    type T2 struct {
+        X int `json:"bar"`
+    }
+
+    var v1 = T1{X: 123}
+    var v2 = T2(v1)
     ```
 
 ## <span id="语句-statement">**语句 Statement**</span>
@@ -1462,7 +1508,6 @@
     ```go
     a := [5]int{2, 3, 4, 5, 6}
 
-
     for k, v := range a {
         fmt.Println(k, v)    // 输出：0 2, 1 3, 2 4, 3 5, 4 6
     }
@@ -1474,7 +1519,10 @@
     for _ = range a {
         fmt.Println("print without care about the key and value")
     }
+    ```
 
+    `Go1.4+`
+    ```go
     for range a {
         fmt.Println("new syntax – print without care about the key and value")
     }
