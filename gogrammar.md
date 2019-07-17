@@ -549,7 +549,7 @@
     b := s[:3:5]           // b: [0 0 0],  len: 3,  cap:  5
     ```
 
-- 向slice中增加/修改元素
+- 向slice中追加/修改元素
 
     ```go
     s := []string{}
@@ -563,10 +563,20 @@
     s[len(s)-1] = "G"               // 修改切片s的最后一个元素
     ```
 
-- 删除slice中指定的元素  
-  因为slice引用指向底层数组，数组的长度不变元素是不能删除的，所以删除的原理就是排除待删除元素后用其他元素重新构造一个数组
+- 向slice指定位置插入元素，从slice中删除指定的元素  
+  因为slice引用指向底层数组，数组的长度不变元素是不能插入/删除的  
+  插入的原理就是从插入的位置将切片分为两部分依次将首部、新元素、尾部拼接为一个新的切片  
+  删除的原理就是排除待删除元素后用其他元素重新构造一个数组
 
     ```go
+    func insertSlice(s []int, i int, elements ...int) []int {
+  	    // x := append(s[:i], append(elements, s[i:]...)...)
+  	    x := s[:i]
+	    x = append(x, elements...)
+        x = append(x, s[i:]...)
+	    return x
+    }
+
     func deleteByAppend() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
