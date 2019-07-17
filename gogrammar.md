@@ -37,6 +37,7 @@
     - [通道选择 select](#通道选择-select)  
     - [延迟执行 defer](#延迟执行-defer)  
     - [跳转语句 goto](#跳转语句-goto)  
+    - [阻塞语句 blocking](#阻塞语句-blocking)  
 
 - [函数 Function](#函数-function)  
 
@@ -1808,6 +1809,21 @@
     ```
 
 - **注意**：任何时候都不建议使用`goto`  
+
+### <span id="阻塞语句-blocking">阻塞语句</span>
+
+- 永久阻塞语句
+
+    ```go
+    // 向一个未初始化的channel中写入数据会永久阻塞
+    (chan int)(nil) <- 0
+    // 从一个未初始化的channel中读取数据会永久阻塞
+    <-(chan struct{})(nil)
+    for range (chan struct{})(nil){}
+
+    // select无任何选择分支会永久阻塞
+    select{}
+    ```
 
 ## <span id="函数-function">**函数 Function**</span>
 
