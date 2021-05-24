@@ -67,7 +67,7 @@
   每个目录中只能定义一个package
 
     ```go
-    package cxy     // 声明一个名为“cxy”的包
+    package abc     // 声明一个名为“abc”的包
 
     package 我的包   // 声明一个名为“我的包”的包
 
@@ -85,21 +85,21 @@
 
 ### <span id="包的导入-import">**包的导入 Import**</span>
 
-- 导入包路径是对应包在`$GOROOT/pkg/$GOOS_$GOARCH/`、`$GOPATH/pkg/$GOOS_$GOARCH/`或`当前路径`中的相对路径
+- 导入包路径是对应包在`$GOROOT/src/`、`$GOPATH/pkg/mod/`、`当前路径`或`go.mod`模块名声明中的相对路径
 
     ```go
-    // 导入$GOROOT/$GOOS_$GOARCH/中的相对路径包(官方标准库)
+    // 导入$GOROOT/src/中的相对路径包(官方标准库)
     import "fmt"
     import "math/rand"
 
-    // 导入$GOPATH/$GOOS_$GOARCH/中的相对路径包
+    // 导入$GOPATH/pkg/mod/中的相对路径包
     import "github.com/user/project/pkg"
     import "code.google.com/p/project/pkg"
     ```
 
   导入当前包的相对路径包  
   例如有Go目录如下：  
-  $GOPATH/src  
+  `MODULE`  
   　├─x0  
   　│　├─y0  
   　│　│　└─z0  
@@ -109,9 +109,9 @@
   　　└─y2
 
     ```go
-    import "./y0/z0"    // x0包中导入子包 z0包
-    import "../y0/z0"   // y1包中导入子包 z0包
-    import "x0/y1/z1"   // y2包中导入 z1包
+    import "./y0/z0"    // 在x0包中导入子包 z0包
+    import "../y0/z0"   // 在y1包中导入子包 z0包
+    import "x0/y1/z1"   // 在y2包中导入 z1包
     ```
 
   错误的导入包路径
@@ -161,7 +161,7 @@
   定义的包名与所在目录名称不同时，导入包路径仍为目录所在路径，引用包名为定义的包名称
 
     ```go
-    // 源文件路径: $GOPATH/src/proj/my-util/util.go
+    // 源文件路径: proj/my-util/util.go
     // 定义包名: util
     package util
     ```
@@ -215,9 +215,9 @@
 
 - internal包（内部包） `Go1.4+`  
   internal包及其子包中的导出元素只能被与internal同父包的其他包访问  
-  
+
   例如有Go目录如下：  
-  $GOPATH/src  
+  `MODULE`  
   　├─x0  
   　│　├─`internal`  
   　│　│　└─z0  
@@ -226,8 +226,8 @@
   　└─x1  
   　　└─y1
   
-  x0，y0，z1包中可以访问internal，z0包中的可见元素  
-  x1，y1包中不能导入internal，z0包
+  在x0，y0，z1包中可以访问internal，z0包中的可见元素  
+  在x1，y1包中不能导入internal，z0包
 
 - 规范导入包路径Canonical import paths `Go1.4+`  
   包声明语句后面添加标记注释，用于标识这个包的规范导入路径。
