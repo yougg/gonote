@@ -1,11 +1,11 @@
-# Golang supported OS/Arch table `go1.16`
+# Golang supported OS/Arch table `go1.17`
 
 |Architecture                    |&#32;&#32;GOOS&#32;→<br>GOARCH↓|`aix`|`android`|`darwin`|`dragonfly`|`freebsd`|`illumos`|`ios`|`js`|`linux`|`netbsd`|`openbsd`|`plan9`|`solaris`|`windows`|
 |:-------------------------------|:--------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 |x86 32-bit                      |`386`     | &nbsp; |&#10004;| &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;| &nbsp; |&#10004;|
 |x86 64-bit                      |`amd64`   | &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|
 |ARM 32-bit                      |`arm`     | &nbsp; |&#10004;|&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;| &nbsp; |&#10004;|
-|ARM 64-bit                      |`arm64`   | &nbsp; |&#10004;|&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;| &nbsp; | &nbsp; | &nbsp; |
+|ARM 64-bit                      |`arm64`   | &nbsp; |&#10004;|&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;| &nbsp; | &nbsp; |&#10004;|
 |MIPS 32-bit,<br>big-endian      |`mips`    | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |
 |MIPS 64-bit,<br>big-endian      |`mips64`  | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |
 |MIPS 64-bit,<br>little-endian   |`mips64le`| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
