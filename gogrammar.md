@@ -1680,6 +1680,23 @@
                 time.Sleep(5e8)
             }
         }
+
+        ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+        defer cancel()
+    loop:
+        for {
+            select {
+            case <-ctx.Done():
+                println("Tick")
+                break loop
+            case <-time.After(5 * time.Second):
+                println("Finish")
+                break loop
+            default:
+                println("default")
+                time.Sleep(5e8)
+            }
+        }
     }
     ```
 
