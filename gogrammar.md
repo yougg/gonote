@@ -1,8 +1,8 @@
 ## Google Go语言 golang 语法详解笔记
 
 *Author*：cxy  
-*Date*：2015-06-26  
-*Version*：1.0  
+*Date*：2022-01-15  
+*Version*：2.0  
 *Source*：[Fork me on GitHub](https://github.com/yougg/gonote)  
 *Description*：学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。  
 本文使用LiteIDE的Markdown编辑器编写，博客为LiteIDE导出的单页html，可以直接保存离线使用。
@@ -1200,7 +1200,7 @@
   任意类型的数据都可以转换为其类型已实现的接口类型
 
     ```go
-    type I interface{}
+    type I any    // Go1.18+
 
     var x int = 123
     var y = I(x)
@@ -1309,7 +1309,7 @@
         checkType(f0)
     }
 
-    func checkType(x interface{}) {
+    func checkType(x any) {    // Go1.18+
         // 断言传入的x为int类型，并获取值
         if i, ok := x.(int); ok {
             println("int: ", i)    // int:  0
@@ -1412,13 +1412,14 @@
             l <-chan string
             m errors.SignatureError
         )
-        values := []interface{}{nil, a, b, &c, d, e, f, g, &g, h, &h, i, j, k, l, m}
+        // Go1.18+
+        values := []any{nil, a, b, &c, d, e, f, g, &g, h, &h, i, j, k, l, m}
         for _, v := range values {
             typeswitch(v)
         }
     }
 
-    func typeswitch(x interface{}) {
+    func typeswitch(x any) {    // Go1.18+
         // switch x.(type) {    // 不使用类型值时
         switch i := x.(type) {
         case nil:
@@ -2112,7 +2113,7 @@
 - `func panic`
 
     ```go
-    func panic(v interface{})
+    func panic(v any)    // Go1.18+
     ```
 
     > 内建函数panic停止当前Go程的正常执行。当函数F调用panic时，F的正常执行就会立刻停止。F中defer的所有函数先入后出执行后，F返回给其调用者G。G如同F一样行动，层层返回，直到该Go程中所有函数都按相反的顺序停止执行。之后，程序被终止，而错误情况会被报告，包括引发该恐慌的实参值，此终止序列称为恐慌过程。
@@ -2156,7 +2157,7 @@
 - `func recover`
 
     ```go
-    func recover() interface{}
+    func recover() any    // Go1.18+
     ```
 
     > 内建函数recover允许程序管理恐慌过程中的Go程。在defer的函数中，执行recover调用会取回传至panic调用的错误值，恢复正常执行，停止恐慌过程。若recover在defer的函数之外被调用，它将不会停止恐慌过程序列。在此情况下，或当该Go程不在恐慌过程中时，或提供给panic的实参为nil时，recover就会返回nil。

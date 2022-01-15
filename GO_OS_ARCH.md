@@ -1,4 +1,6 @@
-# Golang supported OS/Arch table `go1.17`
+# Golang supported OS/Arch table `go1.18`
+
+## GOOS GOARCH
 
 |Architecture                    |&#32;&#32;GOOS&#32;→<br>GOARCH↓|`aix`|`android`|`darwin`|`dragonfly`|`freebsd`|`illumos`|`ios`|`js`|`linux`|`netbsd`|`openbsd`|`plan9`|`solaris`|`windows`|
 |:-------------------------------|:--------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
@@ -16,14 +18,14 @@
 |IBM ESA/390                     |`s390x`   | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |WebAssembly                     |`wasm`    | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 
-# script for print table
+## script for print Markdown table
 
 ```bash
 #!/bin/bash
 
 DIST=$(go tool dist list)
-OSes=$(go tool dist list | awk -F '/' '{print $1}' | sort | uniq)
-ARCHes=$(go tool dist list | awk -F '/' '{print $2}' | sort | uniq)
+OSes=$(go tool dist list | awk -F '/' '{print $1}' | sort -u)
+ARCHes=$(go tool dist list | awk -F '/' '{print $2}' | sort -u)
 
 # print table header
 echo '|&#32;&#32;GOOS&#32;→<br>GOARCH↓|`'$OSes'`|' | sed 's/\ /`|`/g'
