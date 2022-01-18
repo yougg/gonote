@@ -1,7 +1,7 @@
 ## Google Go语言 golang 语法详解笔记
 
 *Author*：cxy  
-*Date*：2022-01-15  
+*Date*：2022-01-19  
 *Version*：2.0  
 *Source*：[Fork me on GitHub](https://github.com/yougg/gonote)  
 *Description*：学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。  
@@ -53,6 +53,11 @@
 
     - [单元测试 Unit](#单元测试-unit)   
     - [基准测试 Benchmark](#基准测试-benchmark)
+
+- [泛型 Generics](#泛型-generics)
+
+    - [类型约束](#类型约束-constraint)
+    - [类型参数](#类型参数-parameters)
 
 ---
 
@@ -1010,7 +1015,7 @@
 
 ### <span id="接口-interface">**接口 Interface**</span>
 
-- 接口类型是由一组方法定义的集合。  
+- 接口类型是由一组类型定义的集合。  
   接口类型的值可以存放实现这些方法的任何值。
 
     ```go
@@ -1116,7 +1121,7 @@
         V func(i int) (b bool)
         W struct {a, b int}
         X chan int
-        Y interface {}
+        Y any
         Z A
     )
     ```
@@ -1149,7 +1154,7 @@
         V *func(i int) (b bool)
         W *struct {a, b int}
         X *chan int
-        Y *interface {}
+        Y *any
         Z *A
     )
     ```
@@ -2531,3 +2536,319 @@
         t0_test.go:19: Sum 1 to 100000000: 5000000050000000  
         t0_test.go:19: Sum 1 to 2000000000: 2000000001000000000  
   ok      /home/cxy/go/src/testgo        1.922s
+
+## <span id="泛型-generics">**泛型 Generics**</span> `Go1.18+`
+
+### <span id="类型约束-constraint">**类型约束 type constraint**</span>
+
+- 定义约束指定类型`T`的`类型约束`接口
+
+    ```go
+    type I10 interface {
+        int
+    }
+
+    type I11 interface {
+        string
+    }
+    ```
+
+    ```go
+    type S struct {
+        b bool
+        e error
+    }
+
+    type I12 interface {
+        S
+    }
+    ```
+
+- 定义约束近似类型`~T`的`类型约束`接口
+
+    ```go
+    type I20 interface {
+        ~int
+    }
+
+    type I21 interface {
+        ~string
+    }
+    ```
+
+    约束近似类型的限制:
+
+    - 近似类型`~T`必须是底层类型自身, 不能是基于底层类型自定义的新类型  
+      在[自定义类型](#自定义类型)小节中所有自定义的`A~Z`类型都被限制
+
+        ```go
+        type I22 interface {
+            ~A    // 错误: A的底层类型是 int
+            ~B    // 错误: B的底层类型是 int8
+            ~C    // 错误: C的底层类型是 int16
+            ~D    // 错误: D的底层类型是 rune
+            ~E    // 错误: E的底层类型是 int32
+            ~F    // 错误: F的底层类型是 int64
+            ~G    // 错误: G的底层类型是 uint
+            ~H    // 错误: H的底层类型是 byte
+            ~I    // 错误: I的底层类型是 uint16
+            ~J    // 错误: J的底层类型是 uint32
+            ~K    // 错误: K的底层类型是 uint64
+            ~L    // 错误: L的底层类型是 float32
+            ~M    // 错误: M的底层类型是 float64
+            ~N    // 错误: N的底层类型是 complex64
+            ~O    // 错误: O的底层类型是 complex128
+            ~P    // 错误: P的底层类型是 uintptr
+            ~Q    // 错误: Q的底层类型是 bool
+            ~R    // 错误: R的底层类型是 string
+            ~S    // 错误: S的底层类型是 [3]uint8
+            ~T    // 错误: T的底层类型是 []complex128
+            ~U    // 错误: U的底层类型是 map[string]uintptr
+            ~V    // 错误: V的底层类型是 func(i int) (b bool)
+            ~W    // 错误: W的底层类型是 struct {a, b int}
+            ~X    // 错误: X的底层类型是 chan int
+            ~Y    // 错误: Y的底层类型是 any
+            ~Z    // 错误: Z的底层类型是 int
+        }
+ 
+        // 正确的近似类型
+        type I23 interface {
+            ~int
+            ~int8
+            ~int16
+            ~rune
+            ~int32
+            ~int64
+            ~uint
+            ~byte
+            ~uint16
+            ~uint32
+            ~uint64
+            ~float32
+            ~float64
+            ~complex64
+            ~complex128
+            ~uintptr
+            ~bool
+            ~string
+            ~[3]uint8
+            ~[]complex128
+            ~map[string]uintptr
+            ~func(i int) (b bool)
+            ~struct {a, b int}
+            ~chan int
+        }
+        ```
+
+    - 近似类型`~T`不能是接口类型
+
+        ```go
+        type I24 interface {
+            ~error    // 错误: 不能是接口类型
+        }
+        ```
+
+- 定义约束联合类型`A|B|C|~D`的`类型约束`接口
+
+    ```go
+    type I30 interface {
+        int
+        string
+    }
+
+    type I31 interface {
+        ~int
+        ~string
+    }
+
+    type I32 interface {
+        int
+        string
+        ~int
+        ~string
+    }
+
+    type Signed interface {
+        ~int | ~int8 | ~int16 | ~int32 | ~int64
+    }
+
+    type Unsigned interface {
+        ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr
+    }
+
+    type Integer interface {
+        Signed | Unsigned
+    }
+
+    type Number interface {
+	    Integer
+	    String() string
+    }
+    ```
+
+- `类型约束`接口的限制
+
+    - 命名或匿名的`类型约束`接口只能用于`类型参数`声明
+
+    - 不能用于全局/局部变量、函数/方法形参以及结构体字段的声明
+
+        ```go
+        var i0 interface{ int }  // 错误
+
+        func Fn0() {
+            var i1 constraints.Integer  // 错误
+        }
+
+        func Fn1(i2 interface{ ~int }) { }  // 错误
+
+        var i3 struct{ F0 ~int }  // 错误
+        var i4 struct{ F1 constraints.Integer }  // 错误
+        ```
+
+### <span id="类型参数-parameters">**类型参数 type parameters**</span>
+
+- `类型参数`声明在函数名与函数参数左括号之间, 为包含在`[]`中的一个或多个类型和参数
+
+    ```go
+    // 为函数声明类型参数T, 其类型为any
+    func ZeroValue[T any]() {
+        var x T
+        fmt.Printf("zero value of %T type: %v\n", x, x)
+    }
+
+    func main() {
+        ZeroValue[bool]()           // zero value of bool type: false
+        ZeroValue[complex64]()      // zero value of complex64 type: (0+0i)
+        ZeroValue[[3]int]()         // zero value of [3]int type: [0 0 0]
+        ZeroValue[map[string]int]() // zero value of map[string]int type: map[]
+        ZeroValue[struct {
+            b bool
+            e error
+        }]()                        // zero value of struct { b bool; e error } type: {false <nil>}
+    }
+    ```
+
+    `类型参数`作为函数输入参数或返回值的类型
+
+    ```go
+    func Fn0[T, U any](t T, u U) {
+        fmt.Println(t, u)
+    }
+
+    func Fn1[T constraints.Integer]() (t T) {
+        return T(rand.Int()) // 使用类型参数强制转换类型
+    }
+
+    func Fn2[K comparable, V any](m map[K]V) {
+        fmt.Println(m)
+    }
+
+    func main() {
+        Fn0[int, int](123, 456)                // 123 456
+        Fn0[string, string]("hello", "world")  // hello
+        fmt.Println(Fn1[int64]())              // 5577006791947779410
+        Fn2[int, int](map[int]int{1: 2, 3: 4}) // map[1:2 3:4]
+
+        // 函数调用省略类型参数实参[...], Go自动推导其类型
+        Fn0(789, "xyz")                             // 789 xyz
+        Fn2(map[string]bool{"x": true, "y": false}) // map[x:true y:false]
+
+        // 无法推导类型的场景不能省略类型参数实参
+        fmt.Println(Fn1[uint64]()) // 8674665223082153551
+    }
+    ```
+
+- `类型参数`声明在类型名右边, 为包含在`[]`中的一个或多个类型和参数
+
+    ```go
+    type S[T any] struct {
+        Field T
+    }
+
+    func (s *S[T])Set(t T) {
+        s.Field = t
+    }
+
+    func (s *S[T]) Get() (t T) {
+        return s.Field
+    }
+
+    func main() {
+        var s0 = new(S[int])
+        // s0.Field = 123
+        s0.Set(456)
+        fmt.Printf("%#v\n", s0)
+ 
+        s1 := S[string]{
+            Field: "hello",
+        }
+        fmt.Printf("%#v\n", s1)
+        fmt.Printf("%#v\n", s1.Get())
+    }
+    ```
+
+- `类型参数`的类型支持指定类型、近似类型、联合类型、匿名和命名的`类型约束`接口
+
+    ```go
+    func Fn10[T int, U uint]()         { /* ... */ }
+    func Fn11[T ~string]()             { /* ... */ }
+    func Fn12[T ~int | string]()       { /* ... */ }
+    func Fn13[T interface{ int }]()    { /* ... */ }
+    func Fn14[T constraints.Integer]() { /* ... */ }
+    ```
+
+- 基于`类型参数`定义`类型约束`接口
+
+    ```go
+    type Slice[T any] interface {
+        ~[]T
+    }
+
+    type Map[K comparable, V any] interface {
+        ~map[K]V
+    }
+
+    type Chan[T any] interface {
+        ~chan T
+    }
+    ```
+
+- `类型参数`的限制
+
+    - 不能将`类型参数`作为约束的类型
+
+        ```go
+        func Fn[T any, U T]() { }  // 错误
+        ```
+
+    - 不能联合或嵌入`类型参数`和`comparable`作为约束的类型
+
+        ```go
+        func Fn0[T any, U int | T]() { }  // 错误
+        func Fn1[T any, U interface{ T }]() { }  // 错误
+        func Fn2[T any, U interface{ T | string }]() { }  // 错误
+        func Fn3[T comparable | int]() { }  // 错误
+        func Fn4[T interface{ comparable }]() { } // 错误
+        ```
+
+    - 联合的约束类型不能存在交集
+
+        ```go
+        func Fn0[T int | ~int]() { }  // 错误
+        func Fn1[T interface{ int | ~int }]() { }  // 错误
+
+        type Str string
+        func Fn2[T string | Str]() { }  // 正确，Str和string是两个不同类型没有交集
+        func Fn3[T string | ~Str]() { }  // 错误，~Str是string的近似类型存在交集string
+
+        func Fn4[T byte | uint8]() { } // 错误，byte和uint8是相同的类型
+        ```
+
+    - 联合的约束类型不能使用含有方法的接口类型
+
+        ```go
+        func Fn0[T error | int]() { } // 错误，error接口含有方法
+        func Fn1[T interface{ string | io.Reader }]() { }  // 错误
+        func Fn2[T interface{ io.Reader | io.Writer }]() { }  // 错误
+        ```
+
