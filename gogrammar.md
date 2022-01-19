@@ -53,6 +53,7 @@
 
     - [单元测试 Unit](#单元测试-unit)   
     - [基准测试 Benchmark](#基准测试-benchmark)
+    - [模糊测试 Fuzzing](#模糊测试-fuzzing)
 
 - [泛型 Generics](#泛型-generics)
 
@@ -2453,7 +2454,7 @@
 
 ### <span id="单元测试-unit">**单元测试 Unit**</span>
 
-- 有如下待测试testgo包，一段简单的求和代码
+- 有如下待测试unittest包，一段简单的求和代码
 
     ```go
     package testgo
@@ -2506,13 +2507,14 @@
         t0_test.go:7: Sum 1 to 0: 0  
         t0_test.go:12: Sum 1 to 10: 55  
   PASS  
-  ok      /home/cxy/go/src/testgo        0.004s
+  ok      /home/cxy/go/code/unittest        0.004s
 
 ### <span id="基准测试-benchmark">**基准测试 Benchmark**</span>
 
 - 基准测试 Benchmark用来检测函数/方法的性能  
   基准测试用例函数必须以`Benchmark`开头  
-  go test默认不会执行基准测试的函数，需要加上参数-test.bench，语法:-test.bench="test_name_regex"，例如go test -test.bench=".*"表示测试全部的基准测试函数  
+  go test默认不会执行基准测试的函数，需要加上参数-test.bench  
+  语法:-test.bench="test_name_regex"，例如go test -test.bench=".*"表示测试全部的基准测试函数  
   在基准测试用例中，在循环体内使用testing.B.N，使测试可以正常的运行
 
     ```go
@@ -2535,7 +2537,56 @@
         t0_test.go:19: Sum 1 to 1000000: 500000500000  
         t0_test.go:19: Sum 1 to 100000000: 5000000050000000  
         t0_test.go:19: Sum 1 to 2000000000: 2000000001000000000  
-  ok      /home/cxy/go/src/testgo        1.922s
+  ok      /home/cxy/go/code/benchmark        1.922s
+
+### <span id="模糊测试-fuzzing">**模糊测试 Fuzzing**</span>
+
+- 模糊测试针对测试运行输入随机数据，尝试找出漏洞或导致崩溃的输入  
+  可以通过模糊测试发现的一些漏洞示例包括 SQL 注入、缓冲区溢出、拒绝服务和跨站点脚本攻击。
+
+    ```go
+    // 待测试函数
+    func Reverse(s string) string {
+        b := []byte(s)
+        for i, j := 0, len(b)-1; i < len(b)/2; i, j = i+1, j-1 {
+            b[i], b[j] = b[j], b[i]
+        }
+        return string(b)
+    }
+    ```
+
+  模糊测试用例函数以`Fuzz`开头
+
+    ```go
+    func FuzzReverse(f *testing.F) {
+        testcases := []string{"Hello, world", " ", "!12345"}
+            for _, tc := range testcases {f.Add(tc) // Use f.Add to provide a seed corpus
+        }
+        f.Fuzz(func(t *testing.T, orig string) {
+            rev := Reverse(orig)
+            doubleRev := Reverse(rev)
+            if orig != doubleRev {
+                t.Errorf("Before: %q, after: %q", orig, doubleRev)
+            }
+            if utf8.ValidString(orig) && !utf8.ValidString(rev) {
+                t.Errorf("Reverse produced invalid UTF-8 string %q", rev)
+            }
+        })
+    }
+    ```
+
+  在当前包中执行测试：`go test -fuzz FuzzReverse`
+
+  > fuzz: elapsed: 0s, gathering baseline coverage: 0/11 completed  
+    failure while testing seed corpus entry: FuzzReverse/91f92b2e5d60254ba0d9f6ed565497fc550f81fe2c93c55c9a00034ffc3bceaf  
+    fuzz: elapsed: 0s, gathering baseline coverage: 3/11 completed  
+    --- FAIL: FuzzReverse (0.03s)  
+    --- FAIL: FuzzReverse (0.00s)  
+    hi_test.go:59: Reverse produced invalid UTF-8 string "\x81\xc7"  
+  > 
+  > FAIL  
+    exit status 1  
+    FAIL    /home/cxy/go/code/fuzz 0.176s
 
 ## <span id="泛型-generics">**泛型 Generics**</span> `Go1.18+`
 
@@ -2818,7 +2869,7 @@
     - 不能将`类型参数`作为约束的类型
 
         ```go
-        func Fn0[T any, U T]() { }                       // 错误
+        func Fn0[T any, U T]() { }                      // 错误
         func Fn1[T any, U []T]() { }                    // 正确，约束的类型是[]T
         func Fn2[T comparable, U any, V map[T]U]() { }  // 正确，约束的类型是map[T]U
         ```
@@ -2853,4 +2904,3 @@
         func Fn1[T interface{ string | io.Reader }]() { }     // 错误
         func Fn2[T interface{ io.Reader | io.Writer }]() { }  // 错误
         ```
-
