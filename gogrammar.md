@@ -2818,37 +2818,39 @@
     - 不能将`类型参数`作为约束的类型
 
         ```go
-        func Fn[T any, U T]() { }  // 错误
+        func Fn0[T any, U T]() { }                       // 错误
+        func Fn1[T any, U []T]() { }                    // 正确，约束的类型是[]T
+        func Fn2[T comparable, U any, V map[T]U]() { }  // 正确，约束的类型是map[T]U
         ```
 
     - 不能联合或嵌入`类型参数`和`comparable`作为约束的类型
 
         ```go
-        func Fn0[T any, U int | T]() { }  // 错误
-        func Fn1[T any, U interface{ T }]() { }  // 错误
+        func Fn0[T any, U int | T]() { }                  // 错误
+        func Fn1[T any, U interface{ T }]() { }           // 错误
         func Fn2[T any, U interface{ T | string }]() { }  // 错误
-        func Fn3[T comparable | int]() { }  // 错误
-        func Fn4[T interface{ comparable }]() { } // 错误
+        func Fn3[T comparable | int]() { }                // 错误
+        func Fn4[T interface{ comparable }]() { }         // 错误
         ```
 
     - 联合的约束类型不能存在交集
 
         ```go
-        func Fn0[T int | ~int]() { }  // 错误
+        func Fn0[T int | ~int]() { }               // 错误
         func Fn1[T interface{ int | ~int }]() { }  // 错误
 
         type Str string
-        func Fn2[T string | Str]() { }  // 正确，Str和string是两个不同类型没有交集
+        func Fn2[T string | Str]() { }   // 正确，Str和string是两个不同类型没有交集
         func Fn3[T string | ~Str]() { }  // 错误，~Str是string的近似类型存在交集string
 
-        func Fn4[T byte | uint8]() { } // 错误，byte和uint8是相同的类型
+        func Fn4[T byte | uint8]() { }   // 错误，byte和uint8是相同的类型
         ```
 
     - 联合的约束类型不能使用含有方法的接口类型
 
         ```go
-        func Fn0[T error | int]() { } // 错误，error接口含有方法
-        func Fn1[T interface{ string | io.Reader }]() { }  // 错误
+        func Fn0[T error | int]() { }                         // 错误，error接口含有方法
+        func Fn1[T interface{ string | io.Reader }]() { }     // 错误
         func Fn2[T interface{ io.Reader | io.Writer }]() { }  // 错误
         ```
 
