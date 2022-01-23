@@ -1,8 +1,8 @@
-![](gitflow/git0.png)
+![](img/git0.png)
 
 #### **◆ Fork代码步骤**
 
-![](gitflow/git1.png)
+![](img/git1.png)
 
 1. 进入项目代码主线仓库, 点击`Fork`按钮,再点击用户创建新的Fork仓库.
 
@@ -37,7 +37,7 @@
         git checkout -b develop origin/develop
         ```
 
-![](gitflow/git2.png)
+![](img/git2.png)
 
 #### **◆ 从主线仓库更新代码到本地Fork仓库的分支步骤**
 
@@ -70,7 +70,7 @@ trunk   http://github.com/mygroup/project.git (push)
         git pull http://github.com/mygroup/project.git trunk develop
         ```
 
-![](gitflow/git3.png)
+![](img/git3.png)
 
 #### **◆ 合并代码到主线仓库步骤**
 
