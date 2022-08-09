@@ -1,4 +1,4 @@
-# Golang supported OS/Arch table `go1.18`
+# Golang supported OS/Arch table `go1.19`
 
 ## GOOS GOARCH
 
