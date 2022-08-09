@@ -8,6 +8,7 @@
 |x86 64-bit                      |`amd64`   | &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|&#10004;|
 |ARM 32-bit                      |`arm`     | &nbsp; |&#10004;|&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;|&#10004;| &nbsp; |&#10004;|
 |ARM 64-bit                      |`arm64`   | &nbsp; |&#10004;|&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; |&#10004;|&#10004;|&#10004;| &nbsp; | &nbsp; |&#10004;|
+|LoongArch 64-bit                |`loong64` | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |MIPS 32-bit,<br>big-endian      |`mips`    | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |
 |MIPS 64-bit,<br>big-endian      |`mips64`  | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |
 |MIPS 64-bit,<br>little-endian   |`mips64le`| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
