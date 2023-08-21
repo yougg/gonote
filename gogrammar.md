@@ -1238,7 +1238,7 @@
   任意类型的数据都可以转换为其类型已实现的接口类型
 
     ```go
-    type I any    // Go1.18+
+    type I any
 
     var x int = 123
     var y = I(x)
@@ -1347,7 +1347,7 @@
         checkType(f0)
     }
 
-    func checkType(x any) {    // Go1.18+
+    func checkType(x any) {
         // 断言传入的x为int类型，并获取值
         if i, ok := x.(int); ok {
             println("int: ", i)    // int:  0
@@ -1379,6 +1379,24 @@
         println("const list")
     default:
         println("default")
+    }
+    ```
+
+- 分支选择对象可以是一个表达式或语句的结果
+
+    ```go
+    switch len(myIP) == net.IPv4len {
+    case true:
+        println("IPv4")
+    case false:
+        println("IPv6")
+    }
+
+    switch isOddNumber(rand.Int()) {
+    case true:
+        println("Odd number")
+    case false:
+        println("Even Number")
     }
     ```
 
@@ -1431,7 +1449,7 @@
 
     import (
         "fmt"
-        "code.google.com/p/go.crypto/openpgp/errors"
+        "go/types"
     )
 
     func main() {
@@ -1448,16 +1466,16 @@
             j chan int
             k chan <- bool
             l <-chan string
-            m errors.SignatureError
+            m types.Error
         )
-        // Go1.18+
+
         values := []any{nil, a, b, &c, d, e, f, g, &g, h, &h, i, j, k, l, m}
         for _, v := range values {
             typeswitch(v)
         }
     }
 
-    func typeswitch(x any) {    // Go1.18+
+    func typeswitch(x any) {
         // switch x.(type) {    // 不使用类型值时
         switch i := x.(type) {
         case nil:
@@ -2183,7 +2201,7 @@
 - `func panic`
 
     ```go
-    func panic(v any)    // Go1.18+
+    func panic(v any)
     ```
 
     > 内建函数panic停止当前Go程的正常执行。当函数F调用panic时，F的正常执行就会立刻停止。F中defer的所有函数先入后出执行后，F返回给其调用者G。G如同F一样行动，层层返回，直到该Go程中所有函数都按相反的顺序停止执行。之后，程序被终止，而错误情况会被报告，包括引发该恐慌的实参值，此终止序列称为恐慌过程。
@@ -2227,7 +2245,7 @@
 - `func recover`
 
     ```go
-    func recover() any    // Go1.18+
+    func recover() any
     ```
 
     > 内建函数recover允许程序管理恐慌过程中的Go程。在defer的函数中，执行recover调用会取回传至panic调用的错误值，恢复正常执行，停止恐慌过程。若recover在defer的函数之外被调用，它将不会停止恐慌过程序列。在此情况下，或当该Go程不在恐慌过程中时，或提供给panic的实参为nil时，recover就会返回nil。
