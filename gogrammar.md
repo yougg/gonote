@@ -1,11 +1,14 @@
 ## Google Go语言 golang 语法详解笔记
 
-*Author*：cxy  
-*Date*：2022-01-19  
-*Version*：2.0  
-*Source*：[Fork me on GitHub](https://github.com/yougg/gonote)  
-*Description*：学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。  
-本文使用LiteIDE的Markdown编辑器编写，博客为LiteIDE导出的单页html，可以直接保存离线使用。
+|    *Title* | Go Grammar Note                                                                          |
+|-----------:|:-----------------------------------------------------------------------------------------|
+|   *Author* | yougg                                                                                    |
+|     *Date* | 2023-08-16                                                                               |
+|  *Version* | 1.21.0                                                                                   |
+|   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                                     |
+| *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。 |
+
+> 本文使用LiteIDE的Markdown编辑器编写，博客为LiteIDE导出的单页html，可以直接保存离线使用。
 
 ---
 
@@ -64,7 +67,7 @@
 
 ## <span id="包-package">**包 Package**</span>
 
-### <span id="包的声明-declare">**包的声明 Declare**</span>
+### <span id="包的声明-declare">**包的声明 keyword:`package`**</span>
 
 - 使用`package`关键字声明当前源文件所在的包  
   包声明语句是所有源文件的第一行非注释语句  
@@ -74,36 +77,51 @@
 
     ```go
     package abc     // 声明一个名为“abc”的包
-
+    ```
+    ```go
     package 我的包   // 声明一个名为“我的包”的包
-
+    ```
+    ```go
     package main    // main包, 程序启动执行的入口包
     ```
 
   错误的包声明
     ```go
     package "mypkg" // 错误
-
+    ```
+    ```go
     package a/b/c   // 错误
-
+    ```
+    ```go
     pakcage a.b.c   // 错误
     ```
 
-### <span id="包的导入-import">**包的导入 Import**</span>
+### <span id="包的导入-import">**包的导入 keyword:`import`**</span>
 
-- 导入包路径是对应包在`$GOROOT/src/`、`$GOPATH/pkg/mod/`、`当前路径`或`go.mod`模块名声明中的相对路径
+- 导入包路径是对应包在如下列表中的相对路径  
+
+    - `$GOROOT/src/`
+    - `$GOPATH/src/`
+    - `$GOPATH/pkg/mod/`
+    - `当前路径`
+    - `go.mod`模块名声明中的相对路径
+
+  导入`$GOROOT/src/`中的相对路径包(官方标准库)
 
     ```go
     // 导入$GOROOT/src/中的相对路径包(官方标准库)
     import "fmt"
     import "math/rand"
+    ```
 
-    // 导入$GOPATH/pkg/mod/中的相对路径包
+  导入`$GOPATH/src/`或`$GOPATH/pkg/mod/`中的相对路径包
+
+    ```go
     import "github.com/user/project/pkg"
     import "code.google.com/p/project/pkg"
     ```
 
-  导入当前包的相对路径包  
+  导入当前包的相对路径包 `Deprecated`  
   例如有Go目录如下：  
   `MODULE`  
   　├─x0  
@@ -200,7 +218,7 @@
     import _ "github.com/go-sql-driver/mysql"
     ```
 
-### <span id="包内元素的可见性-accessability">**包内元素的可见性 Accessability**</span>
+### <span id="包内元素的可见性-accessability">**包内元素的可见性 Accessibility**</span>
 
 - 名称首字符为[Unicode包含的大写字母](http://www.fileformat.info/info/unicode/category/Lu/list.htm)的元素是被导出的，对外部包是可见的  
   首字为非大写字母的元素只对本包可见(同包跨源文件可以访问，子包不能访问)
@@ -210,7 +228,7 @@
     var in byte                                     // in is unexported
     var ȸȹ string                                   // ȸȹ is unexported
     const Ȼom bool = false                          // Ȼom is exported
-    const ѧѩ uint8 = 1                             // ѧѩ is unexported
+    const ѧѩ uint8 = 1                              // ѧѩ is unexported
     type Ĩnteger int                                // Ĩnteger is exported
     type ブーリアン *bool                             // ブーリアン is unexported
     func Ӭxport() {...}                              // Ӭxport is exported
@@ -256,24 +274,24 @@
 
 - 基本类型包含：数值类型，布尔类型，字符串
 
-    |类型|取值范围|默认零值|类型|取值范围|默认零值|
-    |:-:|:-:|:-:|:-:|:-:|:-:|
-    |`int`|**int32,int64**|0|`uint`|**uint32,uint64**|0|
-    |`int8`|**-2<sup>7</sup> ~ 2<sup>7</sup>-1**|0|`uint8`,`byte`|0 ~ **2<sup>8</sup>-1**|0|
-    |`int16`|**-2<sup>15</sup> ~ 2<sup>15</sup>-1**|0|`uint16`|0 ~ **2<sup>16</sup>-1**|0|
-    |`int32`,`rune`|**-2<sup>31</sup> ~ 2<sup>31</sup>-1**|0|`uint32`|0 ~ **2<sup>32</sup>-1**|0|
-    |`int64`|**-2<sup>63</sup> ~ 2<sup>63</sup>-1**|0|`uint64`|0 ~ **2<sup>64</sup>-1**|0|
-    |`float32`|IEEE-754 32-bit|0.0|`float64`|IEEE-754 64-bit|0.0|
-    |`complex64`|**float32+float32**i|0 + 0i|`complex128`|**float64+float64**i|0 + 0i|
-    |`bool`|**true,false**|false|`string`|"" ~ "∞"|"",\`\`|
-    |`uintptr`|**uint32,uint64**|0|`error`|-|nil|
+    |       类型       |                  取值范围                  |  默认零值  |       类型       |           取值范围           |  默认零值   |
+    |:--------------:|:--------------------------------------:|:------:|:--------------:|:------------------------:|:-------:|
+    |     `int`      |            **int32,int64**             |   0    |     `uint`     |    **uint32,uint64**     |    0    |
+    |     `int8`     |  **-2<sup>7</sup> ~ 2<sup>7</sup>-1**  |   0    | `uint8`,`byte` | 0 ~ **2<sup>8</sup>-1**  |    0    |
+    |    `int16`     | **-2<sup>15</sup> ~ 2<sup>15</sup>-1** |   0    |    `uint16`    | 0 ~ **2<sup>16</sup>-1** |    0    |
+    | `int32`,`rune` | **-2<sup>31</sup> ~ 2<sup>31</sup>-1** |   0    |    `uint32`    | 0 ~ **2<sup>32</sup>-1** |    0    |
+    |    `int64`     | **-2<sup>63</sup> ~ 2<sup>63</sup>-1** |   0    |    `uint64`    | 0 ~ **2<sup>64</sup>-1** |    0    |
+    |   `float32`    |            IEEE-754 32-bit             |  0.0   |   `float64`    |     IEEE-754 64-bit      |   0.0   |
+    |  `complex64`   |          **float32+float32**i          | 0 + 0i |  `complex128`  |   **float64+float64**i   | 0 + 0i  |
+    |     `bool`     |             **true,false**             | false  |    `string`    |         "" ~ "∞"         | "",\`\` |
+    |   `uintptr`    |           **uint32,uint64**            |   0    |    `error`     |            -             |   nil   |
 
     > `byte` 是 `uint8` 的别名  
       `rune` 是 `int32` 的别名，代表一个Unicode码点  
       `int`与`int32`或`int64`是不同的类型，只是根据架构对应32/64位值  
       `uint`与`uint32`或`uint64`是不同的类型，只是根据架构对应32/64位值
 
-### <span id="变量-variable">**变量 Variable**</span>
+### <span id="变量-variable">**变量 Variable keyword:`var`**</span>
 
 - 变量声明, 使用`var`关键字  
   Go中只能使用`var` **声明**变量，无需显式初始化值
@@ -334,7 +352,7 @@
     c := 1 + 2i                // c complex128
     ```
 
-### <span id="常量-constant">**常量 Constant**</span>
+### <span id="常量-constant">**常量 Constant keyword:`const`**</span>
 
 - 常量可以是字符、字符串、布尔或数值类型的值，数值常量是高精度的值
 
@@ -474,7 +492,7 @@
     d := [3]int{}                                          // d = [0 0 0]
     fmt.Printf("%T\t%#v\t%d\t%d\n", d, d, len(d), cap(d))  // [3]int    [3]int{0, 0, 0}    3    3
     ```
-  
+
   使用`...`自动计算数组的长度
 
     ```go
@@ -487,7 +505,7 @@
     // 通过下标访问数组元素
     println(y[1][1][0])                                    // 6
     ```
-  
+
   初始化指定索引的数组元素，未指定初始化的元素保持默认零值
 
     ```go
@@ -509,7 +527,7 @@
 
     var e = []string{2:"c", 3:"d"}
     ```
-  
+
   使用内置函数make初始化slice，第一参数是slice类型，第二参数是长度，第三参数是容量(省略时与长度相同)
 
     ```go
@@ -525,7 +543,7 @@
 
 - 基于slice或数组重新切片，创建一个新的 slice 值指向相同的数组  
   重新切片支持两种格式：  
-  
+
   2个参数 `slice[beginIndex:endIndex]`  
   需要满足条件：0 <= beginIndex <= endIndex <= cap(slice)  
   截取从开始索引到结束索引-1 之间的片段  
@@ -608,11 +626,11 @@
 
     ```go
     func insertSlice(s []int, i int, elements ...int) []int {
-  	    // x := append(s[:i], append(elements, s[i:]...)...)
-  	    x := s[:i]
-	    x = append(x, elements...)
+        // x := append(s[:i], append(elements, s[i:]...)...)
+        x := s[:i]
+        x = append(x, elements...)
         x = append(x, s[i:]...)
-	    return x
+        return x
     }
 
     func deleteByAppend() {
@@ -631,7 +649,7 @@
     }
     ```
 
-### <span id="字典映射-map">**字典/映射 Map**</span>
+### <span id="字典映射-map">**字典/映射 Map keyword:`map`**</span>
 
 - map是引用类型，使用内置函数 `make`进行初始化，未初始化的map零值为 `nil`长度为0，并且不能赋值元素
 
@@ -644,7 +662,7 @@
     fmt.Println("is nil: ", nil == m)     // true
     fmt.Println("length: ", len(m))       // 0，if m is nil, len(m) is zero.
     ```
-  
+
   使用内置函数make初始化map
 
     ```go
@@ -656,20 +674,20 @@
     fmt.Println("is nil: ", nil == m)     // false
     fmt.Println("length: ", len(m))       // 1
     ```
-  
+
   直接赋值初始化map
 
     ```go
     m := map[int]int{
-    0:0,
-    1:1,                                  // 最后的逗号是必须的
+        0:0,
+        1:1,                                  // 最后的逗号是必须的
     }
     n := map[string]S{
-    "a":S{0,1},
-    "b":{2,3},                            // 类型名称可省略
+        "a":S{0,1},
+        "b":{2,3},                            // 类型名称可省略
     }
     ```
-  
+
   map的使用：读取、添加、修改、删除元素
 
     ```go
@@ -682,7 +700,7 @@
     delete(n, "a")                        // 使用内置函数delete删除key为”a“对应的元素.
     ```
 
-### <span id="结构体-struct">**结构体 Struct**</span>
+### <span id="结构体-struct">**结构体 Struct keyword:`type``struct`**</span>
 
 - 结构体类型`struct`是一个字段的集合
 
@@ -940,7 +958,7 @@
   [Go语言中的指针运算](http://1234n.com/?post/rseosp)  
   [利用unsafe操作未导出变量](http://my.oschina.net/goal/blog/193698)
 
-### <span id="通道-channel">**通道 Channel**</span>
+### <span id="通道-channel">**通道 Channel keyword:`chan`**</span>
 
 - channel用于两个goroutine之间传递指定类型的值来同步运行和通讯。  
   操作符`<-`用于指定channel的方向，发送或接收。  
@@ -1046,7 +1064,7 @@
         }
     ```
 
-### <span id="接口-interface">**接口 Interface**</span>
+### <span id="接口-interface">**接口 Interface keyword:`interface`**</span>
 
 - 接口类型是由一组类型定义的集合。  
   接口类型的值可以存放实现这些方法的任何值。
@@ -1276,7 +1294,7 @@
 
 - 控制语句(if，for，switch，select)、函数、方法 的左大括号不能单独放在一行， 语法解析器会在大括号之前自动插入一个分号，导致编译错误。 
 
-### <span id="条件语句-if">**条件语句 if**</span>
+### <span id="条件语句-if">**条件语句 if keyword:`if``else`**</span>
 
 - `if`语句 小括号 ( )是可选的，而大括号 { } 是必须的。
 
@@ -1367,7 +1385,7 @@
     }
     ```
 
-### <span id="分支选择-switch">**分支选择 switch**</span>
+### <span id="分支选择-switch">**分支选择 switch keyword:`switch``case``default``fallthrough`**</span>
 
 - `switch`存在分支选择对象时，`case`分支支持单个常量、常量列表
 
@@ -1545,7 +1563,7 @@
     // 输出：case 2 case 3 case 4
     ```
 
-### <span id="循环语句-for">**循环语句 for**</span>
+### <span id="循环语句-for">**循环语句 for keyword:`for``range``continue``break`**</span>
 
 - Go只有一种循环结构：`for` 循环。  
   可以让前置(初始化)、中间(条件)、后置(迭代)语句为空，或者全为空。
@@ -1690,7 +1708,7 @@
     }
     ```
 
-### <span id="通道选择-select">**通道选择 select**</span>
+### <span id="通道选择-select">**通道选择 select keyword:`select`**</span>
 
 - ` select`用于当前goroutine从一组可能的通讯中选择一个进一步处理。  
   如果任意一个通讯都可以进一步处理，则从中随机选择一个，执行对应的语句。否则在没有默认分支(default case)时，select语句则会阻塞，直到其中一个通讯完成。  
@@ -1757,7 +1775,7 @@
     }
     ```
 
-### <span id="延迟执行-defer">**延迟执行 defer**</span>
+### <span id="延迟执行-defer">**延迟执行 defer keyword:`defer`**</span>
 
 - `defer`语句调用函数，将调用的函数加入defer栈，栈中函数在defer所在的主函数返回时执行，执行顺序是先进后出/后进先出。
 
@@ -1851,7 +1869,7 @@
     }
     ```
 
-### <span id="跳转语句-goto">**跳转语句 goto**</span>
+### <span id="跳转语句-goto">**跳转语句 goto keyword:`goto`**</span>
 
 - `goto`用于在一个函数内部运行跳转到指定标签的代码处，不能跳转到其他函数中定义的标签。
 
@@ -1911,7 +1929,7 @@
 
 ## <span id="函数-function">**函数 Function**</span>
 
-### <span id="函数声明-declare">**函数声明 Declare**</span>
+### <span id="函数声明-declare">**函数声明 Declare keyword:`func``return`**</span>
 
 - 使用关键字`func`声明函数，函数可以没有参数或接受多个参数
 
@@ -2408,7 +2426,7 @@
 
 - Go中有匿名函数，但是没有匿名方法
 
-## <span id="并发-concurrency">**并发 Concurrency**</span>
+## <span id="并发-concurrency">**并发 Concurrency keyword:`go`**</span>
 
 - 协程`goroutine`是由Go运行时环境管理的轻量级线程。  
   使用关键字`go`调用一个函数/方法，启动一个新的协程goroutine
@@ -2589,7 +2607,7 @@
         t0_test.go:7: Sum 1 to 0: 0  
         t0_test.go:12: Sum 1 to 10: 55  
   PASS  
-  ok      /home/cxy/go/code/unittest        0.004s
+  ok      /home/yougg/code/unittest        0.004s
 
 ### <span id="基准测试-benchmark">**基准测试 Benchmark**</span>
 
@@ -2619,7 +2637,7 @@
         t0_test.go:19: Sum 1 to 1000000: 500000500000  
         t0_test.go:19: Sum 1 to 100000000: 5000000050000000  
         t0_test.go:19: Sum 1 to 2000000000: 2000000001000000000  
-  ok      /home/cxy/go/code/benchmark        1.922s
+  ok      /home/yougg/code/benchmark        1.922s
 
 ### <span id="模糊测试-fuzzing">**模糊测试 Fuzzing**</span>
 
@@ -2668,7 +2686,7 @@
   > 
   > FAIL  
     exit status 1  
-    FAIL    /home/cxy/go/code/fuzz 0.176s
+    FAIL    /home/yougg/code/fuzz 0.176s
 
 ## <span id="泛型-generics">**泛型 Generics**</span> `Go1.18+`
 
