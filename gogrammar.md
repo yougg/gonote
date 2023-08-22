@@ -67,7 +67,7 @@
 
 ## <span id="包-package">**包 Package**</span>
 
-### <span id="包的声明-declare">**包的声明 keyword:`package`**</span>
+### <span id="包的声明-declare">**包的声明， keyword:`package`**</span>
 
 - 使用`package`关键字声明当前源文件所在的包  
   包声明语句是所有源文件的第一行非注释语句  
@@ -96,7 +96,7 @@
     pakcage a.b.c   // 错误
     ```
 
-### <span id="包的导入-import">**包的导入 keyword:`import`**</span>
+### <span id="包的导入-import">**包的导入， keyword:`import`**</span>
 
 - 导入包路径是对应包在如下列表中的相对路径  
 
@@ -291,7 +291,7 @@
       `int`与`int32`或`int64`是不同的类型，只是根据架构对应32/64位值  
       `uint`与`uint32`或`uint64`是不同的类型，只是根据架构对应32/64位值
 
-### <span id="变量-variable">**变量 Variable keyword:`var`**</span>
+### <span id="变量-variable">**变量 Variable， keyword:`var`**</span>
 
 - 变量声明, 使用`var`关键字  
   Go中只能使用`var` **声明**变量，无需显式初始化值
@@ -352,7 +352,7 @@
     c := 1 + 2i                // c complex128
     ```
 
-### <span id="常量-constant">**常量 Constant keyword:`const`**</span>
+### <span id="常量-constant">**常量 Constant， keyword:`const`**</span>
 
 - 常量可以是字符、字符串、布尔或数值类型的值，数值常量是高精度的值
 
@@ -649,7 +649,7 @@
     }
     ```
 
-### <span id="字典映射-map">**字典/映射 Map keyword:`map`**</span>
+### <span id="字典映射-map">**字典/映射 Map， keyword:`map`**</span>
 
 - map是引用类型，使用内置函数 `make`进行初始化，未初始化的map零值为 `nil`长度为0，并且不能赋值元素
 
@@ -700,7 +700,7 @@
     delete(n, "a")                        // 使用内置函数delete删除key为”a“对应的元素.
     ```
 
-### <span id="结构体-struct">**结构体 Struct keyword:`type``struct`**</span>
+### <span id="结构体-struct">**结构体 Struct， keyword:`type` `struct`**</span>
 
 - 结构体类型`struct`是一个字段的集合
 
@@ -958,7 +958,7 @@
   [Go语言中的指针运算](http://1234n.com/?post/rseosp)  
   [利用unsafe操作未导出变量](http://my.oschina.net/goal/blog/193698)
 
-### <span id="通道-channel">**通道 Channel keyword:`chan`**</span>
+### <span id="通道-channel">**通道 Channel， keyword:`chan`**</span>
 
 - channel用于两个goroutine之间传递指定类型的值来同步运行和通讯。  
   操作符`<-`用于指定channel的方向，发送或接收。  
@@ -1064,7 +1064,7 @@
         }
     ```
 
-### <span id="接口-interface">**接口 Interface keyword:`interface`**</span>
+### <span id="接口-interface">**接口 Interface， keyword:`interface`**</span>
 
 - 接口类型是由一组类型定义的集合。  
   接口类型的值可以存放实现这些方法的任何值。
@@ -1294,7 +1294,7 @@
 
 - 控制语句(if，for，switch，select)、函数、方法 的左大括号不能单独放在一行， 语法解析器会在大括号之前自动插入一个分号，导致编译错误。 
 
-### <span id="条件语句-if">**条件语句 if keyword:`if``else`**</span>
+### <span id="条件语句-if">**条件语句 if， keyword:`if` `else`**</span>
 
 - `if`语句 小括号 ( )是可选的，而大括号 { } 是必须的。
 
@@ -1385,7 +1385,7 @@
     }
     ```
 
-### <span id="分支选择-switch">**分支选择 switch keyword:`switch``case``default``fallthrough`**</span>
+### <span id="分支选择-switch">**分支选择 switch， keyword:`switch` `case` `default` `fallthrough`**</span>
 
 - `switch`存在分支选择对象时，`case`分支支持单个常量、常量列表
 
@@ -1563,7 +1563,7 @@
     // 输出：case 2 case 3 case 4
     ```
 
-### <span id="循环语句-for">**循环语句 for keyword:`for``range``continue``break`**</span>
+### <span id="循环语句-for">**循环语句 for， keyword:`for` `range` `continue` `break`**</span>
 
 - Go只有一种循环结构：`for` 循环。  
   可以让前置(初始化)、中间(条件)、后置(迭代)语句为空，或者全为空。
@@ -1708,7 +1708,7 @@
     }
     ```
 
-### <span id="通道选择-select">**通道选择 select keyword:`select`**</span>
+### <span id="通道选择-select">**通道选择 select， keyword:`select`**</span>
 
 - ` select`用于当前goroutine从一组可能的通讯中选择一个进一步处理。  
   如果任意一个通讯都可以进一步处理，则从中随机选择一个，执行对应的语句。否则在没有默认分支(default case)时，select语句则会阻塞，直到其中一个通讯完成。  
@@ -1775,7 +1775,7 @@
     }
     ```
 
-### <span id="延迟执行-defer">**延迟执行 defer keyword:`defer`**</span>
+### <span id="延迟执行-defer">**延迟执行 defer， keyword:`defer`**</span>
 
 - `defer`语句调用函数，将调用的函数加入defer栈，栈中函数在defer所在的主函数返回时执行，执行顺序是先进后出/后进先出。
 
@@ -1869,7 +1869,7 @@
     }
     ```
 
-### <span id="跳转语句-goto">**跳转语句 goto keyword:`goto`**</span>
+### <span id="跳转语句-goto">**跳转语句 goto， keyword:`goto`**</span>
 
 - `goto`用于在一个函数内部运行跳转到指定标签的代码处，不能跳转到其他函数中定义的标签。
 
@@ -1929,7 +1929,7 @@
 
 ## <span id="函数-function">**函数 Function**</span>
 
-### <span id="函数声明-declare">**函数声明 Declare keyword:`func``return`**</span>
+### <span id="函数声明-declare">**函数声明 Declare， keyword:`func` `return`**</span>
 
 - 使用关键字`func`声明函数，函数可以没有参数或接受多个参数
 
@@ -2426,7 +2426,7 @@
 
 - Go中有匿名函数，但是没有匿名方法
 
-## <span id="并发-concurrency">**并发 Concurrency keyword:`go`**</span>
+## <span id="并发-concurrency">**并发 Concurrency， keyword:`go`**</span>
 
 - 协程`goroutine`是由Go运行时环境管理的轻量级线程。  
   使用关键字`go`调用一个函数/方法，启动一个新的协程goroutine
