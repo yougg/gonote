@@ -3,8 +3,8 @@
 |    *Title* | Go Grammar Note                                                                          |
 |-----------:|:-----------------------------------------------------------------------------------------|
 |   *Author* | yougg                                                                                    |
-|     *Date* | 2023-08-16                                                                               |
-|  *Version* | 1.21.0                                                                                   |
+|     *Date* | 2023-12-22                                                                               |
+|  *Version* | 1.22rc1                                                                                  |
 |   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                                     |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。 |
 
@@ -1628,7 +1628,8 @@
     }
     ```
 
-- `for range`只支持遍历`数组`、`数组指针`、`slice`、`string`、`map`、`channel`类型
+- `for range`只支持遍历`数组`、`数组指针`、`slice`、`string`、`map`、`channel`类型  
+  新增支持遍历整数类型,迭代从0到n-1递增的数字`Go1.22+`
 
     ```go
     package main
@@ -1704,6 +1705,10 @@
         // 遍历channel时，只能取一位值，为发送方发送到channel中的值
         for x := range ch {
             fmt.Printf("%d ", x)    // 0 1 2 3 4
+        }
+        // 遍历整数时，只能取一位值，为从0到n-1之间的递增整数, 如果n<=0则不会执行遍历
+        for i := range 5 {
+            fmt.Printf("%d ", i)    // 0 1 2 3 4
         }
     }
     ```
