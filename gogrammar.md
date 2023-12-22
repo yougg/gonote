@@ -93,7 +93,7 @@
     package a/b/c   // 错误
     ```
     ```go
-    pakcage a.b.c   // 错误
+    package a.b.c   // 错误
     ```
 
 ### <span id="包的导入-import">**包的导入， keyword:`import`**</span>
