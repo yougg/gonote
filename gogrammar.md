@@ -3,8 +3,8 @@
 |    *Title* | Go Grammar Note                                                                          |
 |-----------:|:-----------------------------------------------------------------------------------------|
 |   *Author* | yougg                                                                                    |
-|     *Date* | 2023-12-22                                                                               |
-|  *Version* | 1.22rc1                                                                                  |
+|     *Date* | 2024-02-27                                                                               |
+|  *Version* | 1.22.0                                                                                   |
 |   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                                     |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。 |
 
@@ -87,13 +87,13 @@
 
   错误的包声明
     ```go
-    package "mypkg" // 错误
+    package "mypkg" // ❌错误
     ```
     ```go
-    package a/b/c   // 错误
+    package a/b/c   // ❌错误
     ```
     ```go
-    package a.b.c   // 错误
+    package a.b.c   // ❌错误
     ```
 
 ### <span id="包的导入-import">**包的导入， keyword:`import`**</span>
@@ -141,9 +141,9 @@
   错误的导入包路径
 
     ```go
-    import a/b/c        // 错误
-    import "a.b.c"      // 错误
-    import a.b.c        // 错误
+    import a/b/c        // ❌错误
+    import "a.b.c"      // ❌错误
+    import a.b.c        // ❌错误
     ```
 
 - 用圆括号组合导入包路径
@@ -211,8 +211,8 @@
 
     ```go
     // 如果当前go源文件中未引用过log包，将会导致编译错误
-    import "log"    // 错误
-    import . "log"  // 静态导入未使用同样报错
+    import "log"    // ❌错误
+    import . "log"  // ❌静态导入未使用同样报错
 
     // 在包名前面增加下划线表示导入包但是不直接使用它，被导入的包中的init函数会在导入的时候执行
     import _ "github.com/go-sql-driver/mysql"
@@ -307,9 +307,9 @@
   关键字的顺序错误或缺少都是编译错误的
 
     ```go
-    var int a       // 编译错误
-    a int           // 编译错误
-    int a           // 编译错误
+    var int a       // ❌编译错误
+    a int           // ❌编译错误
+    int a           // ❌编译错误
     ```
 
 - `var` 语句可以声明一个变量列表，类型在变量名之后
@@ -1226,7 +1226,7 @@
             c C
         )
         // 因为类型名不同，所以a和b不是相同类型，此处编译错误
-        fmt.Println(a == b) // invalid operation: a == b (mismatched types A and B)
+        fmt.Println(a == b) // ❌invalid operation: a == b (mismatched types A and B)
 
         fmt.Println(a == c) // true
         a = C{}
@@ -1299,10 +1299,10 @@
 - `if`语句 小括号 ( )是可选的，而大括号 { } 是必须的。
 
     ```go
-    if (i < 0)        // 编译错误.
+    if (i < 0)        // ❌编译错误.
         println(i)
 
-    if i < 0          // 编译错误.
+    if i < 0          // ❌编译错误.
         println(i)
 
     if (i < 0) {      // 编译通过.
@@ -1325,7 +1325,7 @@
 - 可以在条件之前执行一个简单的语句，由这个语句定义的变量的作用域仅在 if / else if / else 范围之内
 
     ```go
-    if (i := 0; i < 1) {    // 编译错误.
+    if (i := 0; i < 1) {    // ❌编译错误.
         println(i)
     }
 
@@ -1584,7 +1584,7 @@
 - `for`语句中小括号 ( )是可选的，而大括号 { } 是必须的。
 
     ```go
-    for (i := 0; i < 10; i++) {...}     // 编译错误.
+    for (i := 0; i < 10; i++) {...}     // ❌编译错误.
     for i := 0; (i < 10); i++ {...}     // 编译通过.
     for (i < 10) {...}                  // 编译通过.
     ```
@@ -1778,6 +1778,12 @@
             }
         }
     }
+    ```
+
+- select没有case分支可供选择执行时该调用会被永久阻塞，在其之后的语句将不会被执行
+
+    ```go
+    select {}
     ```
 
 ### <span id="延迟执行-defer">**延迟执行 defer， keyword:`defer`**</span>
@@ -2406,11 +2412,11 @@
 
         // 调用结构体空指针上的方法，以下注释掉的代码都是空指针错误
         var c *A    // c = nil
-        // c.setX(2)
-        // c.setY(5)
-        // println(c.x, c.y)
-        // c.echo_A()
-        // c.echoA()
+        // c.setX(2) // ❌
+        // c.setY(5) // ❌
+        // println(c.x, c.y) // ❌
+        // c.echo_A() // ❌
+        // c.echoA() // ❌
         c.echo_жA()    // (_ *A)
         c.echoжA("c")    // (*A) c
 
@@ -2741,32 +2747,32 @@
 
         ```go
         type I22 interface {
-            ~A    // 错误: A的底层类型是 int
-            ~B    // 错误: B的底层类型是 int8
-            ~C    // 错误: C的底层类型是 int16
-            ~D    // 错误: D的底层类型是 rune
-            ~E    // 错误: E的底层类型是 int32
-            ~F    // 错误: F的底层类型是 int64
-            ~G    // 错误: G的底层类型是 uint
-            ~H    // 错误: H的底层类型是 byte
-            ~I    // 错误: I的底层类型是 uint16
-            ~J    // 错误: J的底层类型是 uint32
-            ~K    // 错误: K的底层类型是 uint64
-            ~L    // 错误: L的底层类型是 float32
-            ~M    // 错误: M的底层类型是 float64
-            ~N    // 错误: N的底层类型是 complex64
-            ~O    // 错误: O的底层类型是 complex128
-            ~P    // 错误: P的底层类型是 uintptr
-            ~Q    // 错误: Q的底层类型是 bool
-            ~R    // 错误: R的底层类型是 string
-            ~S    // 错误: S的底层类型是 [3]uint8
-            ~T    // 错误: T的底层类型是 []complex128
-            ~U    // 错误: U的底层类型是 map[string]uintptr
-            ~V    // 错误: V的底层类型是 func(i int) (b bool)
-            ~W    // 错误: W的底层类型是 struct {a, b int}
-            ~X    // 错误: X的底层类型是 chan int
-            ~Y    // 错误: Y的底层类型是 any
-            ~Z    // 错误: Z的底层类型是 int
+            ~A    // ❌错误: A的底层类型是 int
+            ~B    // ❌错误: B的底层类型是 int8
+            ~C    // ❌错误: C的底层类型是 int16
+            ~D    // ❌错误: D的底层类型是 rune
+            ~E    // ❌错误: E的底层类型是 int32
+            ~F    // ❌错误: F的底层类型是 int64
+            ~G    // ❌错误: G的底层类型是 uint
+            ~H    // ❌错误: H的底层类型是 byte
+            ~I    // ❌错误: I的底层类型是 uint16
+            ~J    // ❌错误: J的底层类型是 uint32
+            ~K    // ❌错误: K的底层类型是 uint64
+            ~L    // ❌错误: L的底层类型是 float32
+            ~M    // ❌错误: M的底层类型是 float64
+            ~N    // ❌错误: N的底层类型是 complex64
+            ~O    // ❌错误: O的底层类型是 complex128
+            ~P    // ❌错误: P的底层类型是 uintptr
+            ~Q    // ❌错误: Q的底层类型是 bool
+            ~R    // ❌错误: R的底层类型是 string
+            ~S    // ❌错误: S的底层类型是 [3]uint8
+            ~T    // ❌错误: T的底层类型是 []complex128
+            ~U    // ❌错误: U的底层类型是 map[string]uintptr
+            ~V    // ❌错误: V的底层类型是 func(i int) (b bool)
+            ~W    // ❌错误: W的底层类型是 struct {a, b int}
+            ~X    // ❌错误: X的底层类型是 chan int
+            ~Y    // ❌错误: Y的底层类型是 any
+            ~Z    // ❌错误: Z的底层类型是 int
         }
  
         // 正确的近似类型
@@ -2802,7 +2808,7 @@
 
         ```go
         type I24 interface {
-            ~error    // 错误: 不能是接口类型
+            ~error    // ❌错误: 不能是接口类型
         }
         ```
 
@@ -2851,23 +2857,23 @@
     - 不能用于全局/局部变量、函数/方法形参以及结构体字段的声明
 
         ```go
-        var i0 interface{ int }  // 错误
+        var i0 interface{ int }  // ❌错误
 
         func Fn0() {
-            var i1 constraints.Integer  // 错误
+            var i1 constraints.Integer  // ❌错误
         }
 
-        func Fn1(i2 interface{ ~int }) { }  // 错误
+        func Fn1(i2 interface{ ~int }) { }  // ❌错误
 
-        var i3 struct{ F0 ~int }  // 错误
-        var i4 struct{ F1 constraints.Integer }  // 错误
+        var i3 struct{ F0 ~int }  // ❌错误
+        var i4 struct{ F1 constraints.Integer }  // ❌错误
         ```
 
     - `类型约束`接口的联合类型不能存在交集
 
         ```go
         type I0 interface {
-            int | ~int  // 错误，int和~int类型的交集是int
+            int | ~int  // ❌错误，int和~int类型的交集是int
         }
         ```
 
@@ -2986,7 +2992,7 @@
     - 不能将`类型参数`作为直接的约束类型
 
         ```go
-        func Fn0[T any, U T]() { }                      // 错误
+        func Fn0[T any, U T]() { }                      // ❌
         func Fn1[T any, U []T]() { }                    // 正确，约束的类型是[]T
         func Fn2[T comparable, U any, V map[T]U]() { }  // 正确，约束的类型是map[T]U
         ```
@@ -2994,30 +3000,30 @@
     - 不能联合或嵌入`类型参数`和`comparable`作为约束的类型
 
         ```go
-        func Fn0[T any, U int | T]() { }                  // 错误
-        func Fn1[T any, U interface{ T }]() { }           // 错误
-        func Fn2[T any, U interface{ T | string }]() { }  // 错误
-        func Fn3[T comparable | int]() { }                // 错误
-        func Fn4[T interface{ comparable }]() { }         // 错误
+        func Fn0[T any, U int | T]() { }                  // ❌错误
+        func Fn1[T any, U interface{ T }]() { }           // ❌错误
+        func Fn2[T any, U interface{ T | string }]() { }  // ❌错误
+        func Fn3[T comparable | int]() { }                // ❌错误
+        func Fn4[T interface{ comparable }]() { }         // ❌错误
         ```
 
     - 联合的约束类型不能存在交集
 
         ```go
-        func Fn0[T int | ~int]() { }               // 错误
-        func Fn1[T interface{ int | ~int }]() { }  // 错误
+        func Fn0[T int | ~int]() { }               // ❌错误
+        func Fn1[T interface{ int | ~int }]() { }  // ❌错误
 
         type Str string
         func Fn2[T string | Str]() { }   // 正确，Str和string是两个不同类型没有交集
-        func Fn3[T string | ~Str]() { }  // 错误，~Str是string的近似类型存在交集string
+        func Fn3[T string | ~Str]() { }  // ❌错误，~Str是string的近似类型存在交集string
 
-        func Fn4[T byte | uint8]() { }   // 错误，byte和uint8是相同的类型
+        func Fn4[T byte | uint8]() { }   // ❌错误，byte和uint8是相同的类型
         ```
 
     - 联合的约束类型不能使用含有方法的接口类型
 
         ```go
-        func Fn0[T error | int]() { }                         // 错误，error接口含有方法
-        func Fn1[T interface{ string | io.Reader }]() { }     // 错误
-        func Fn2[T interface{ io.Reader | io.Writer }]() { }  // 错误
+        func Fn0[T error | int]() { }                         // ❌错误，error接口含有方法
+        func Fn1[T interface{ string | io.Reader }]() { }     // ❌错误
+        func Fn2[T interface{ io.Reader | io.Writer }]() { }  // ❌错误
         ```
