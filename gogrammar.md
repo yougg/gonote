@@ -1,14 +1,12 @@
 ## Google Go语言 golang 语法详解笔记
 
-|    *Title* | Go Grammar Note                                                                          |
-|-----------:|:-----------------------------------------------------------------------------------------|
-|   *Author* | yougg                                                                                    |
-|     *Date* | 2024-02-27                                                                               |
-|  *Version* | 1.22.0                                                                                   |
-|   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                                     |
-| *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅。其中若有错误的地方还请指正，或者在GitHub直接fork修改。 |
-
-> 本文使用LiteIDE的Markdown编辑器编写，博客为LiteIDE导出的单页html，可以直接保存离线使用。
+|    *Title* | Go Grammar Note                                                             |
+|-----------:|:----------------------------------------------------------------------------|
+|   *Author* | yougg                                                                       |
+|     *Date* | 2024-03-12                                                                  |
+|  *Version* | 1.22.1                                                                      |
+|   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                        |
+| *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅，若有错误请在GitHub提issue。 |
 
 ---
 
@@ -185,8 +183,8 @@
   定义的包名与所在目录名称不同时，导入包路径仍为目录所在路径，引用包名为定义的包名称
 
     ```go
+    // Package util
     // 源文件路径: proj/my-util/util.go
-    // 定义包名: util
     package util
     ```
     ```go
@@ -743,12 +741,12 @@
             v int
         }
 
-        // 定义结构体B，嵌入结构体A作为匿名字段
+        // B 定义结构体B，嵌入结构体A作为匿名字段
         B struct {
             A
         }
 
-        // 定义结构体C，嵌入结构体A的指针作为匿名字段
+        // C 定义结构体C，嵌入结构体A的指针作为匿名字段
         C struct {
             *A
         }
@@ -977,7 +975,7 @@
     c0 := make(chan int)        // 不带缓冲的int类型channel
     c1 := make(chan *int, 10)    // 带缓冲的*int类型指针channel
     ```
-  无缓冲的channe中有值时发送方会阻塞，直到接收方从channel中取出值。  
+  无缓冲的channel没有接收者时发送方会阻塞，直到有接收方从channel中取出值。  
   带缓冲的channel在缓冲区已满时发送方会阻塞，直到接收方从channel中取出值。  
   接收方在channel中无值会一直阻塞。
 
@@ -1706,7 +1704,7 @@
         for x := range ch {
             fmt.Printf("%d ", x)    // 0 1 2 3 4
         }
-        // 遍历整数时，只能取一位值，为从0到n-1之间的递增整数, 如果n<=0则不会执行遍历
+        // 遍历整数时，只能取一位值，为从0到n-1之间的递增整数, 如果n<=0则不会执行遍历 Go1.22+
         for i := range 5 {
             fmt.Printf("%d ", i)    // 0 1 2 3 4
         }
@@ -2377,19 +2375,21 @@
         a.setX(3)
         a.setY(6)
         println(a.x, a.y) // 0  6
-        a.echo_A()    // (_ A)
-        a.echoA("a")    // (A) a
-        a.echo_жA()    // (_ *A)
-        a.echoжA("a")    // (*A) a
+        a.echo_A()        // (_ A)
+        a.echoA("a")      // (A) a
+        a.echo_жA()       // (_ *A)
+        a.echoжA("a")     // (*A) a
 
         // 以下是定义在结构体值上的方法原型，通过调用结构体类型上定义的函数，传入结构体的值
-        A.echo_A(a)    // (_ A)
-        A.echoA(a, "a")    // (A) a
-        // A.echo_жA(a)    // A.echo_жA未定义
-        // A.echoжA(a)    //  A.echoжA未定义
+        A.echo_A(a)     // (_ A)
+        A.echoA(a, "a") // (A) a
+        // A.echo_жA(a) // A.echo_жA未定义
+        // A.echoжA(a)  //  A.echoжA未定义
+        type AA = *A
+        AA.echo_жA(nil) // (_ *A)
         A.setX(a, 4)
-        // A.setY(a, 7)    // A.setY未定义
-        println(a.x) // 0
+        // A.setY(a, 7) // A.setY未定义
+        println(a.x)    // 0
 
 
         b := &a
@@ -2402,28 +2402,28 @@
         b.echoжA("b")    // (*A) b
 
         // 以下是定义在结构体指针上的方法原型，通过调用结构体类型指针上定义的函数，传入结构体的指针
-        (*A).echo_A(b)    // (_ A)
-        (*A).echoA(b, "b")    // (A) b
-        (*A).echo_жA(b)    // (_ *A)
-        (*A).echoжA(b, "b")    // (*A) b
+        (*A).echo_A(b)      // (_ A)
+        (*A).echoA(b, "b")  // (A) b
+        (*A).echo_жA(b)     // (_ *A)
+        (*A).echoжA(b, "b") // (*A) b
         (*A).setX(b, 1)
         (*A).setY(b, 8)
-        println(b.x, b.y)    // 0   8
+        println(b.x, b.y)   // 0   8
 
         // 调用结构体空指针上的方法，以下注释掉的代码都是空指针错误
-        var c *A    // c = nil
-        // c.setX(2) // ❌
-        // c.setY(5) // ❌
-        // println(c.x, c.y) // ❌
-        // c.echo_A() // ❌
-        // c.echoA() // ❌
+        var c *A     // c = nil
+        // c.setX(2)         // ❌错误，nil pointer dereference
+        // c.setY(5)         // ❌错误，nil pointer dereference
+        // println(c.x, c.y) // ❌错误，nil pointer dereference
+        // c.echo_A()        // ❌错误，nil pointer dereference
+        // c.echoA()         // ❌错误，nil pointer dereference
         c.echo_жA()    // (_ *A)
-        c.echoжA("c")    // (*A) c
+        c.echoжA("c")  // (*A) c
 
         // (*A).echo_A(c)
         // (*A).echoA(c)
-        (*A).echo_жA(c)    // (_ *A)
-        (*A).echoжA(c, "c")    // (*A) c
+        (*A).echo_жA(c)     // (_ *A)
+        (*A).echoжA(c, "c") // (*A) c
         // (*A).setX(c, 1)
         // (*A).setY(c, 8)
         // println(c.x, c.y)
@@ -2857,15 +2857,15 @@
     - 不能用于全局/局部变量、函数/方法形参以及结构体字段的声明
 
         ```go
-        var i0 interface{ int }  // ❌错误
+        var i0 interface{ int }  // ❌错误，不能做为全局变量的类型
 
         func Fn0() {
-            var i1 constraints.Integer  // ❌错误
+            var i1 constraints.Integer  // ❌错误，不能做为局部变量的类型
         }
 
-        func Fn1(i2 interface{ ~int }) { }  // ❌错误
+        func Fn1(i2 interface{ ~int }) { }  // ❌错误，不能做为函数参数的类型
 
-        var i3 struct{ F0 ~int }  // ❌错误
+        var i3 struct{ F0 ~int }  // ❌错误，不能做为结构体字段的类型
         var i4 struct{ F1 constraints.Integer }  // ❌错误
         ```
 
@@ -2992,7 +2992,7 @@
     - 不能将`类型参数`作为直接的约束类型
 
         ```go
-        func Fn0[T any, U T]() { }                      // ❌
+        func Fn0[T any, U T]() { }                      // ❌错误，不能将类型参数T做为类型参数U的约束类型
         func Fn1[T any, U []T]() { }                    // 正确，约束的类型是[]T
         func Fn2[T comparable, U any, V map[T]U]() { }  // 正确，约束的类型是map[T]U
         ```
