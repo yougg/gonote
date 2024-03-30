@@ -10,49 +10,50 @@
 
 ---
 
-- [包 Package](#包-package)  
-    - [包的声明 Declare](#包的声明-declare)  
-    - [包的导入 Import](#包的导入-import)  
-    - [包内元素的可见性 Accessability](#包内元素的可见性-accessability)  
+- [包 Package](#包-package)
 
-- [数据类型 Data Type](#数据类型-data-type)  
+    - [包的声明 Declare](#包的声明-declare)
+    - [包的导入 Import](#包的导入-import)
+    - [包内元素的可见性 Accessability](#包内元素的可见性-accessability)
 
-    - [基础数据类型 Basic data type](#基础数据类型-basic-data-type)  
-    - [变量 Variable](#变量-variable)  
-    - [常量 Constant](#常量-constant)  
-    - [数组 Array](#数组-array)  
-    - [切片 Slice](#切片-slice)  
-    - [字典/映射 Map](#字典映射-map)  
-    - [结构体 Struct](#结构体-struct)  
-    - [指针 Pointer](#指针-pointer)  
-    - [通道 Channel](#通道-channel)  
-    - [接口 Interface](#接口-interface)  
-    - [自定义类型](#自定义类型)  
+- [数据类型 Data Type](#数据类型-data-type)
 
-- [语句 Statement](#语句-statement)  
+    - [基础数据类型 Basic data type](#基础数据类型-basic-data-type)
+    - [变量 Variable](#变量-variable)
+    - [常量 Constant](#常量-constant)
+    - [数组 Array](#数组-array)
+    - [切片 Slice](#切片-slice)
+    - [字典/映射 Map](#字典映射-map)
+    - [结构体 Struct](#结构体-struct)
+    - [指针 Pointer](#指针-pointer)
+    - [通道 Channel](#通道-channel)
+    - [接口 Interface](#接口-interface)
+    - [自定义类型](#自定义类型)
 
-    - [分号/括号 ; {](#分号括号--)  
-    - [条件语句 if](#条件语句-if)  
-    - [分支选择 switch](#分支选择-switch)  
-    - [循环语句 for](#循环语句-for)  
-    - [通道选择 select](#通道选择-select)  
-    - [延迟执行 defer](#延迟执行-defer)  
-    - [跳转语句 goto](#跳转语句-goto)  
-    - [阻塞语句 blocking](#阻塞语句-blocking)  
+- [语句 Statement](#语句-statement)
 
-- [函数 Function](#函数-function)  
+    - [分号/括号 ; {](#分号括号--)
+    - [条件语句 if](#条件语句-if)
+    - [分支选择 switch](#分支选择-switch)
+    - [循环语句 for](#循环语句-for)
+    - [通道选择 select](#通道选择-select)
+    - [延迟执行 defer](#延迟执行-defer)
+    - [跳转语句 goto](#跳转语句-goto)
+    - [阻塞语句 blocking](#阻塞语句-blocking)
 
-    - [函数声明 Declare](#函数声明-declare)  
-    - [函数闭包 Closure](#函数闭包-closure)  
-    - [内建函数 Builtin](#内建函数-builtin)  
-    - [初始化函数 init](#初始化函数-init)  
-    - [方法 Method](#方法-method)  
+- [函数 Function](#函数-function)
 
-- [并发 Concurrency](#并发-concurrency)  
+    - [函数声明 Declare](#函数声明-declare)
+    - [函数闭包 Closure](#函数闭包-closure)
+    - [内建函数 Builtin](#内建函数-builtin)
+    - [初始化函数 init](#初始化函数-init)
+    - [方法 Method](#方法-method)
 
-- [测试 Testing](#测试-testing)  
+- [并发 Concurrency](#并发-concurrency)
 
-    - [单元测试 Unit](#单元测试-unit)   
+- [测试 Testing](#测试-testing)
+
+    - [单元测试 Unit](#单元测试-unit)
     - [基准测试 Benchmark](#基准测试-benchmark)
     - [模糊测试 Fuzzing](#模糊测试-fuzzing)
 
@@ -96,7 +97,7 @@
 
 ### <span id="包的导入-import">**包的导入， keyword:`import`**</span>
 
-- 导入包路径是对应包在如下列表中的相对路径  
+- 导入包路径是对应包在如下列表中的相对路径
 
     - `$GOROOT/src/`
     - `$GOPATH/src/`
@@ -236,7 +237,7 @@
     ```
 
 - internal包（内部包） `Go1.4+`  
-  internal包及其子包中的导出元素只能被与internal同父包的其他包访问  
+  internal包及其子包中的导出元素只能被与internal同父包的其他包访问
 
   例如有Go目录如下：  
   `MODULE`  
@@ -512,6 +513,7 @@
     ```
 
 ### <span id="切片-slice">**切片 Slice**</span>
+
 - slice 切片是对一个数组上的连续一段的引用，并且同时包含了长度和容量信息  
   因为是引用类型，所以未初始化时的默认零值是`nil`，长度与容量都是0
 
@@ -1290,7 +1292,7 @@
   if/switch的条件判断带有初始化语句时使用分号分开初始化语句与判断语句。  
   在一行中有多条语句时，需要增加分号。
 
-- 控制语句(if，for，switch，select)、函数、方法 的左大括号不能单独放在一行， 语法解析器会在大括号之前自动插入一个分号，导致编译错误。 
+- 控制语句(if，for，switch，select)、函数、方法 的左大括号不能单独放在一行， 语法解析器会在大括号之前自动插入一个分号，导致编译错误。
 
 ### <span id="条件语句-if">**条件语句 if， keyword:`if` `else`**</span>
 
@@ -1919,7 +1921,7 @@
     }
     ```
 
-- **注意**：任何时候都不建议使用`goto`  
+- **注意**：任何时候都不建议使用`goto`
 
 ### <span id="阻塞语句-blocking">阻塞语句</span>
 
