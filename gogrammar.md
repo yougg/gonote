@@ -1629,11 +1629,16 @@
     ```
 
 - `for range`只支持遍历`数组`、`数组指针`、`slice`、`string`、`map`、`channel`类型  
-  新增支持遍历整数类型,迭代从0到n-1递增的数字`Go1.22+`
+  新增支持遍历整数类型,迭代从0到n-1递增的数字`Go1.22+`  
+  新增支持遍历函数迭代器`Go1.23+`
 
     ```go
     package main
-    import "fmt"
+
+    import (
+        "fmt"
+        "slices"
+    )
 
     func main() {
         var arr = [...]int{33, 22, 11, 0}
@@ -1709,6 +1714,13 @@
         // 遍历整数时，只能取一位值，为从0到n-1之间的递增整数, 如果n<=0则不会执行遍历 Go1.22+
         for i := range 5 {
             fmt.Printf("%d ", i)    // 0 1 2 3 4
+        }
+        // 遍历函数迭代器 Go1.23+
+        for v := range slices.Values([]int{1, 2, 3, 4, 5}) {
+            fmt.Println(v)
+        }
+        for i, v := range slices.Backward([]int{1, 2, 3, 4, 5}) {
+            fmt.Println(i, v)
         }
     }
     ```
