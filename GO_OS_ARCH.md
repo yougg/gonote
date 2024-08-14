@@ -1,4 +1,4 @@
-# Golang supported OS/Arch table `go1.22`
+# Golang supported OS/Arch table `go1.23`
 
 ## GOOS GOARCH
 
@@ -15,7 +15,7 @@
 |MIPS 32-bit,<br>little-endian   |`mipsle`  | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |PowerPC 64-bit,<br>big-endian   |`ppc64`   |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |PowerPC 64-bit,<br>little-endian|`ppc64le` | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-|RISC-V 64-bit                   |`riscv64` | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
+|RISC-V 64-bit                   |`riscv64` | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |IBM ESA/390                     |`s390x`   | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 |WebAssembly                     |`wasm`    | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; | &nbsp; | &nbsp; | &nbsp; | &nbsp; |&#10004;| &nbsp; |
 
