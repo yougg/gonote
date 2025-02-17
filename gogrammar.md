@@ -3,8 +3,8 @@
 |    *Title* | Go Grammar Note                                                             |
 |-----------:|:----------------------------------------------------------------------------|
 |   *Author* | yougg                                                                       |
-|     *Date* | 2024-08-14                                                                  |
-|  *Version* | 1.23.0                                                                      |
+|     *Date* | 2025-02-17                                                                  |
+|  *Version* | 1.24.0                                                                      |
 |   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                        |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅，若有错误请在GitHub提issue。 |
 
@@ -14,7 +14,7 @@
 
     - [包的声明 Declare](#包的声明-declare)
     - [包的导入 Import](#包的导入-import)
-    - [包内元素的可见性 Accessability](#包内元素的可见性-accessability)
+    - [包内元素的可见性 Accessibility](#包内元素的可见性-accessibility)
 
 - [数据类型 Data Type](#数据类型-data-type)
 
@@ -108,7 +108,6 @@
   导入`$GOROOT/src/`中的相对路径包(官方标准库)
 
     ```go
-    // 导入$GOROOT/src/中的相对路径包(官方标准库)
     import "fmt"
     import "math/rand"
     ```
@@ -217,7 +216,7 @@
     import _ "github.com/go-sql-driver/mysql"
     ```
 
-### <span id="包内元素的可见性-accessability">**包内元素的可见性 Accessibility**</span>
+### <span id="包内元素的可见性-accessibility">**包内元素的可见性 Accessibility**</span>
 
 - 名称首字符为[Unicode包含的大写字母](http://www.fileformat.info/info/unicode/category/Lu/list.htm)的元素是被导出的，对外部包是可见的  
   首字为非大写字母的元素只对本包可见(同包跨源文件可以访问，子包不能访问)
@@ -2999,6 +2998,14 @@
     type Chan[T any] interface {
         ~chan T
     }
+    ```
+
+  - 基于`类型参数`定义泛型类型别名 `Go1.24+`
+
+    ```go
+    type A[T comparable] int
+    type B[U int|byte|string] = A[U]
+    type C B[int]
     ```
 
 - `类型参数`的限制
