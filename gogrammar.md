@@ -3,8 +3,8 @@
 |    *Title* | Go Grammar Note                                                             |
 |-----------:|:----------------------------------------------------------------------------|
 |   *Author* | yougg                                                                       |
-|     *Date* | 2025-02-17                                                                  |
-|  *Version* | 1.24.0                                                                      |
+|     *Date* | 2025-09-02                                                                  |
+|  *Version* | 1.25.0                                                                      |
 |   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                        |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅，若有错误请在GitHub提issue。 |
 
