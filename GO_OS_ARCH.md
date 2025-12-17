@@ -1,4 +1,4 @@
-# Golang supported OS/Arch table `go1.24`
+# Golang supported OS/Arch table `go1.25`
 
 ## GOOS GOARCH
 
@@ -29,7 +29,8 @@ OSes=$(go tool dist list | awk -F '/' '{print $1}' | sort -u)
 ARCHes=$(go tool dist list | awk -F '/' '{print $2}' | sort -u)
 
 # print table header
-echo '|&#32;&#32;GOOS&#32;→<br>GOARCH↓|`'$OSes'`|' | sed 's/\ /`|`/g'
+echo -n '| GOOS →<br>GOARCH↓ |'
+echo '`'$OSes'`|' | sed 's/\ /`|`/g'
 
 # print separator
 echo -n '|:--------:|'

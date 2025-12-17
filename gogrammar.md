@@ -72,7 +72,7 @@
   包声明语句是所有源文件的第一行非注释语句  
   包名称中不能包含空白字符  
   包名推荐与源文件所在的目录名称保持一致  
-  每个目录中只能定义一个package
+  每个目录中只能定义一个package名称 (例外: 用于黑盒测试的`_test.go`文件包名为"当前包名_test")
 
     ```go
     package abc     // 声明一个名为“abc”的包
@@ -607,7 +607,7 @@
 - 向slice中追加/修改元素
 
     ```go
-    s := []string{}
+    var s []string
     s = append(s, "a")              // 添加一个元素
     s = append(s, "b", "c", "d")    // 添加一列元素
     t = []string{"e", "f", "g"}
@@ -642,9 +642,13 @@
     func deleteByCopy() {
         i := 3
         s := []int{1, 2, 3, 4, 5, 6, 7}
-        // delete the fourth element(index is 3), using copy
-        copy(s[i:], s[i+1:])
-        s = s[:len(s)-1]
+        if i < len(s) / 2 {
+            copy(s[1:], s[:i]) // 将[0:i)位置元素复制到[1:i]
+            s = s[1:] // 排除第0个元素
+        } else {
+            copy(s[i:], s[i+1:]) // 将[i+1:len(s))位置元素复制到[i:len(s))
+            s = s[:len(s)-1] // 排除末尾元素
+        }
     }
     ```
 
