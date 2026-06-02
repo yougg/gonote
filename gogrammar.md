@@ -3,8 +3,8 @@
 |    *Title* | Go Grammar Note                                                             |
 |-----------:|:----------------------------------------------------------------------------|
 |   *Author* | yougg                                                                       |
-|     *Date* | 2025-12-17                                                                  |
-|  *Version* | 1.25.5                                                                      |
+|     *Date* | 2026-02-10                                                                  |
+|  *Version* | 1.26.0                                                                      |
 |   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                        |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅，若有错误请在GitHub提issue。 |
 
@@ -876,11 +876,22 @@
     var s *S = &S{0, "1", "2"}    // 指向值对象的指针
     ```
 
-- 内置函数`new(T)`分配了一个零初始化的 T 值，并返回指向它的指针
+- 内置函数`new(T)`分配了一个T类型初始化零值，并返回指向它的指针
 
     ```go
     var i = new(int)
     var s *S = new(S)
+    ```
+
+  `new(expr)`参数`expr`是类型为T的表达式，初始化为expr值并返回指向它的指针  `Go1.26+`
+
+    ```go
+    var a = new(123)
+    var b = new(true)
+    var c = new("hello")
+    var d = new(struct {A int; B bool; C string}{*a, *b, *c})
+    var e = new(errors.New("error literal"))
+    var f = new(func() int { return 456 })
     ```
 
 - 使用`*`读取/修改指针指向的值
