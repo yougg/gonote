@@ -3023,6 +3023,34 @@
     type C B[int]
     ```
 
+- `类型参数`定义自引用约束 `Go1.26+`
+
+    ```go
+    // 接口类型参数自引用约束
+    type Node[T Node[T]] interface {
+        Prev() *T
+        Next() *T
+    }
+
+    type Builder[ID comparable, B Builder[ID, B]] interface {
+        SetID(ID) B
+        Build() string
+    }
+
+    // 结构体类型参数自引用约束
+    type Session[S State[S]] struct {
+        rentState S
+    }
+
+    type Renderer[T any] interface {
+        RenderBehind(T) string
+    }
+    // 函数类型参数自引用约束
+    func RenderPair[R Renderer[R]](first, second R) {
+        fmt.Println(first.RenderBehind(second))
+    }
+    ```
+
 - `类型参数`的限制
 
     - 不能将`类型参数`作为直接的约束类型
