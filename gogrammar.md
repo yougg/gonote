@@ -1,11 +1,11 @@
 ## Google Go语言 golang 语法详解笔记
 
-|    *Title* | Go Grammar Note                                                             |
-|-----------:|:----------------------------------------------------------------------------|
-|   *Author* | yougg                                                                       |
-|     *Date* | 2026-02-10                                                                  |
-|  *Version* | 1.26.0                                                                      |
-|   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                        |
+|    *Title* | Go Grammar Note                                                                                                                     |
+|-----------:|:------------------------------------------------------------------------------------------------------------------------------------|
+|   *Author* | yougg                                                                                                                               |
+|     *Date* | 2026-08-20                                                                                                                          |
+|  *Version* | 1.27.0                                                                                                                              |
+|   *Source* | [Fork me on GitHub](https://github.com/yougg/gonote)                                                                                |
 | *Describe* | 学习Go语言过程中记录下来的语法详解笔记，可以帮助新接触的朋友快速熟悉理解Golang，也可以作为查询手册翻阅，若有错误请在GitHub提issue。 |
 
 ---
@@ -2989,6 +2989,25 @@
     }
     ```
 
+    结构体方法定义`类型参数` `Go1.27+`
+
+    ```go
+    type List[T any] struct {
+        elements []T
+    }
+
+    // Map 是一个泛型方法,引入了独立的类型参数 U，用于指定转换后的元素类型
+    func (l *List[T]) Map[U any](fn func(T) U) *List[U] {
+        result := &List[U]{
+            elements: make([]U, len(l.elements)),
+        }
+        for i, e := range l.elements {
+            result.elements[i] = fn(e)
+        }
+        return result
+    }
+    ```
+
 - `类型参数`的类型支持指定类型、近似类型、联合类型、匿名和命名的`类型约束`接口
 
     ```go
@@ -3090,4 +3109,26 @@
         func Fn0[T error | int]() { }                         // ❌错误，error接口含有方法
         func Fn1[T interface{ string | io.Reader }]() { }     // ❌错误
         func Fn2[T interface{ io.Reader | io.Writer }]() { }  // ❌错误
+        ```
+
+    - 接口类型不允许定义泛型方法，且泛型方法不能用于实现任何接口
+
+        ```go
+        type I interface{ Method[T any]() }    // ❌错误
+        ```
+
+        ```go
+        type S struct {}
+
+        func (s S) Error[T any]() string {
+            var _ T
+            return "error msg"
+        }
+
+        func main() {
+            var s S
+            fmt.Println(s.Error[string]())
+            var e = error(s)    // ❌错误，S does not implement error
+            fmt.Println(e)
+        }
         ```
